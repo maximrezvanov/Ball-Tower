@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickBehavior : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
+    private int colorIndex;
     private Renderer rend;
-    public int colorIndex;
-
 
     public int ColorIndex => colorIndex;
 
 
-    void Awake()
-    {
-        rend = GetComponent<Renderer>();
-        //rend.material.color = new Color(Random.value, Random.value, Random.value, 1);
-    }
 
     public void SetMaterial(int colorIndex)
     {
@@ -23,6 +17,6 @@ public class BrickBehavior : MonoBehaviour
         rend.material = GameController.Instance.mats[colorIndex];
     }
 
-    
+
 
 }
