@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private int colorIndex;
+    public int colorIndex;
     private Renderer rend;
+
+
+    private void Start()
+    {
+        rend = GetComponent<Renderer>();
+        SetMaterial();
+    }
 
     public int ColorIndex => colorIndex;
 
 
 
-    public void SetMaterial(int colorIndex)
+    public void SetMaterial()
     {
-        this.colorIndex = colorIndex;
+
+        colorIndex = Random.Range(0, 3);
         rend.material = GameController.Instance.mats[colorIndex];
+
+
     }
 
 

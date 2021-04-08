@@ -6,10 +6,8 @@ using UnityEngine;
 public class TowerRing : MonoBehaviour
 {
     private BrickBehavior brick;
-
     public List<BrickBehavior> bricks = new List<BrickBehavior>();
-
-
+    public bool isHide = false;
 
     public bool IsBasicColor
     {
@@ -29,8 +27,6 @@ public class TowerRing : MonoBehaviour
     {
         InitRings();
     }
-    
-   
 
     private void InitRings()
     {
@@ -44,4 +40,29 @@ public class TowerRing : MonoBehaviour
             indexes.Remove(rnd);
         }
     }
+
+    private void LateUpdate()
+    {
+        HideRing();
+    }
+    private void HideRing()
+    {
+        bool match = true;
+        foreach (var item in bricks)
+        {
+            if (!item.IsMatch)
+            {
+                match = false;
+                break;
+            }
+        }
+        if(match)
+        {
+            //gameObject.SetActive(false);
+            Destroy(gameObject);
+            isHide = true;
+        }
+    }
+
+    
 }

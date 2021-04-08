@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -9,18 +11,22 @@ public class Gun : MonoBehaviour
     public LineRenderer lineVisual;
     public float flightTime = 1f;
     public TrajectoryRenderer Trajectory;
+    private Bullet bullet;
+
 
 
     private Camera mainCamera;
  
     void Start()
     {
+        bullet = FindObjectOfType<Bullet>();
         mainCamera = Camera.main;
     }
  
     void Update()
     {
         LaunchProjectile();
+        
     }
  
     void LaunchProjectile()
@@ -63,5 +69,6 @@ public class Gun : MonoBehaviour
  
         return result;
     }
- 
+
+
 }
