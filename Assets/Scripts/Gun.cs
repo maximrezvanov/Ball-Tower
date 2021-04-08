@@ -8,7 +8,6 @@ public class Gun : MonoBehaviour
     [SerializeField] private Rigidbody bulletPrefab;
     public GameObject cursor;
     public Transform shootPoint;
-    public LineRenderer lineVisual;
     public float flightTime = 1f;
     public TrajectoryRenderer Trajectory;
     private Bullet bullet;
