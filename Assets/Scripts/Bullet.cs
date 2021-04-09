@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
     public void SetMaterial()
     {
 
-        colorIndex = Random.Range(0, 3);
+        colorIndex = Random.Range(0, 4);
         rend.material = GameController.Instance.mats[colorIndex];
 
 
