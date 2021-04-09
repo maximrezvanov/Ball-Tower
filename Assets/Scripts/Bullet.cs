@@ -16,16 +16,27 @@ public class Bullet : MonoBehaviour
 
     public int ColorIndex => colorIndex;
 
+    private void Update()
+    {
+        if (!rend.isVisible)
+        {
+            Destroy(gameObject);
+        }
+        DestroyBullet();
+    }
 
+    private void DestroyBullet()
+    {
+      
+    }
 
     public void SetMaterial()
     {
-
         colorIndex = Random.Range(0, 4);
         rend.material = GameController.Instance.mats[colorIndex];
-
-
     }
+
+
 
 
 

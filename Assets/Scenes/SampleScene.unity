@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c1b18fcbab6467c8834f1946ae275d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedRotation: 0.5
+  speedRotation: 23
 --- !u!4 &572458510
 Transform:
   m_ObjectHideFlags: 0
@@ -998,8 +998,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.30901828, g: 0.19215688, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1674,9 +1674,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: -2267917174746784191, guid: c444ecab0a2a547d6b48838f2328d665,
     type: 3}
-  cursor: {fileID: 108447002}
   shootPoint: {fileID: 1785144599}
-  flightTime: 1
+  speed: 1
   Trajectory: {fileID: 422779019}
 --- !u!4 &1791426320
 Transform:

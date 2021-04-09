@@ -14,6 +14,6 @@ public class TowerRotator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, speedRotation, 0);
+        transform.Rotate(0, speedRotation * Time.deltaTime, 0);
     }
 }
