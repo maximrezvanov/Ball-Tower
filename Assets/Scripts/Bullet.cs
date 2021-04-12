@@ -4,39 +4,43 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+
     public int colorIndex;
     private Renderer rend;
-
+    private Rigidbody rb;
 
     private void Start()
     {
-        rend = GetComponent<Renderer>();
-        SetMaterial();
+        
     }
 
+    private void Awake()
+    {
+        rend = GetComponent<Renderer>();
+        rb = GetComponent<Rigidbody>();
+    }
     public int ColorIndex => colorIndex;
 
     private void Update()
     {
-        if (!rend.isVisible)
-        {
-            Destroy(gameObject);
-        }
+        
         DestroyBullet();
     }
 
     private void DestroyBullet()
     {
-      
+        if (!rend.isVisible)
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void SetMaterial()
+    public void SetVelocity(Vector3 velocity)
     {
-        colorIndex = Random.Range(0, 4);
-        rend.material = GameController.Instance.mats[colorIndex];
+        rb.velocity = velocity;
     }
-
-
+    
+     
 
 
 
