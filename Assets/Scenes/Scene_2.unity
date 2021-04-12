@@ -152,6 +152,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullets:
   - {fileID: 7464160001179912307, guid: c444ecab0a2a547d6b48838f2328d665, type: 3}
+  - {fileID: 7464160001179912307, guid: e893d136aa8f145df93904938fda4202, type: 3}
+  - {fileID: 7464160001179912307, guid: c160ec2dd0b974b81929edf88c6952d8, type: 3}
+  - {fileID: 7464160001179912307, guid: ac30386af80674396b746f16021160f0, type: 3}
 --- !u!4 &38877956
 Transform:
   m_ObjectHideFlags: 0
@@ -922,6 +925,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a94ba78955a2434f8a14077bdf41226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &846240935
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 846240937}
+  - component: {fileID: 846240936}
+  m_Layer: 0
+  m_Name: SceneController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &846240936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846240935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92d572b4533e4eaa96cb9afc5813f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &846240937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846240935}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.35, z: -14.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &860102811 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6295987814893788270, guid: 9451911df53ca4d689c0fada933fe3a9,
@@ -994,6 +1040,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 81662b7edef1e4808a2b084b78457ace, type: 2}
   - {fileID: 2100000, guid: 93a3f186151544a04914caf2f410526f, type: 2}
   - {fileID: 2100000, guid: 88cf0e3ea41de44fe9ec49618be2e96b, type: 2}
+  minRingsToWin: 4
 --- !u!4 &903359239
 Transform:
   m_ObjectHideFlags: 0
@@ -1044,7 +1091,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.30901828, g: 0.19215688, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.8301887, g: 0.56818235, b: 0.27803493, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

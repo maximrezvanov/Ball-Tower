@@ -19,7 +19,6 @@ public class TowerRing : MonoBehaviour
 
     private void Start()
     {
-
         Init();
     }
 
@@ -58,8 +57,8 @@ public class TowerRing : MonoBehaviour
         }
         if(match)
         {
-            //gameObject.SetActive(false);
             Destroy(gameObject);
+            GameController.Instance.DestroyRing(this);
             isHide = true;
         }
     }

@@ -1,22 +1,34 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private TowerRing ring;
-    private BrickBehavior brick;
-    private Bullet bullet;
     public List<TowerRing> rings = new List<TowerRing>();
     public List<Material> mats;
-    private Vector3 startPosition;
     public static GameController Instance;
+    [SerializeField] int minRingsToWin = 4;
 
     private void Awake()
     {
        Instance = this;
     }
-    
+
+
+    private void Update()
+    {
+        FinishLevel();
+    }
+
+    private void FinishLevel()
+    {
+        if (rings.Count <= minRingsToWin)
+        {
+            SceneController.I.LoadLevel();
+        }
+    }
+
+    public void DestroyRing(TowerRing ring)
+    {
+        rings.Remove(ring);
+    }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
@@ -8,11 +6,6 @@ public class Bullet : MonoBehaviour
     public int colorIndex;
     private Renderer rend;
     private Rigidbody rb;
-
-    private void Start()
-    {
-        
-    }
 
     private void Awake()
     {
@@ -23,7 +16,6 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        
         DestroyBullet();
     }
 
@@ -39,9 +31,10 @@ public class Bullet : MonoBehaviour
     {
         rb.velocity = velocity;
     }
-    
-     
 
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        rb.useGravity = true;
+    }
 
 }

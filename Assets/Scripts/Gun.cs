@@ -50,7 +50,6 @@ public class Gun : MonoBehaviour
             Bullet prefab = ammo.GetBullet();
             var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
             bullet.SetVelocity(direction * speed);
-
         }
     }
 
