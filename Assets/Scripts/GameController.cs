@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
     public List<TowerRing> rings = new List<TowerRing>();
     public List<Material> mats;
     public static GameController Instance;
+    private BoxHandler box;
     [SerializeField] int minRingsToWin = 4;
 
     private void Awake()
@@ -13,6 +14,10 @@ public class GameController : MonoBehaviour
        Instance = this;
     }
 
+    private void Start()
+    {
+        box = FindObjectOfType<BoxHandler>(); 
+    }
 
     private void Update()
     {
@@ -20,6 +25,17 @@ public class GameController : MonoBehaviour
     }
 
     private void FinishLevel()
+    {
+        OpenTheBoxToWin();
+    }
+
+    private void OpenTheBoxToWin()
+    {
+        if(box.isFinishHit)
+            SceneController.I.LoadLevel();
+    }
+
+    private void DestroyRingsToWin()
     {
         if (rings.Count <= minRingsToWin)
         {
@@ -31,4 +47,6 @@ public class GameController : MonoBehaviour
     {
         rings.Remove(ring);
     }
+
+    
 }

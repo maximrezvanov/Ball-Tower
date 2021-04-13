@@ -12,7 +12,13 @@ public class Gun : MonoBehaviour
     [SerializeField] private Ammo ammo;
     [SerializeField] float minRotationAngle;
     [SerializeField] float maxRotationAngle;
+    [SerializeField] float minAngleX;
+    [SerializeField] float maxAngleX;
+
+
     private int count = 0;
+    private int countV = 0;
+
     [SerializeField] float intersectionPoint = 20f;
 
     [SerializeField]private Camera mainCamera;
@@ -26,6 +32,13 @@ public class Gun : MonoBehaviour
             count++;
         }
         maxRotationAngle += count * 360;
+
+        while (minAngleX < 0)
+        {
+            minAngleX += 360;
+            countV++;
+        }
+        maxAngleX += countV * 360;
     }
 
     void Update()
@@ -38,11 +51,19 @@ public class Gun : MonoBehaviour
         Vector3 mousePosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.nearClipPlane));
         Vector3 point = mainCamera.transform.position + (mousePosition - mainCamera.transform.position).normalized * intersectionPoint;
         Vector3 direction = (point - transform.position).normalized;
-        transform.rotation = Quaternion.LookRotation(direction);
-        float gunAngle = transform.rotation.eulerAngles.y;
+        var look = Quaternion.LookRotation(direction);
+        float gunAngle = look.eulerAngles.y;
+        float gunAngleX = look.eulerAngles.x;
+
+
         if (IsBetween(minRotationAngle, maxRotationAngle, gunAngle))
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, gunAngle, transform.rotation.eulerAngles.z);
+        }
+
+        if (IsBetween(minAngleX, maxAngleX, gunAngleX))
+        {
+            transform.rotation = Quaternion.Euler(gunAngleX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
 
         if (Input.GetMouseButtonDown(0))

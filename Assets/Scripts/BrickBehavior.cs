@@ -15,7 +15,6 @@ public class BrickBehavior : MonoBehaviour
     void Awake()
     {
         rend = GetComponent<Renderer>();
-        //rend.material.color = new Color(Random.value, Random.value, Random.value, 1);
     }
 
     private void Start()
@@ -35,6 +34,7 @@ public class BrickBehavior : MonoBehaviour
         if (collision.gameObject.GetComponent<Renderer>().material.color == rend.material.color &&
             collision.gameObject.CompareTag("bullet"))
         {
+            Destroy(collision.gameObject);
             rend.material.color = Color.black;
             IsMatch = true;
         }

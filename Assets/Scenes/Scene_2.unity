@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 0b3a0dcfd5b9d4a108231d17ef6e281e,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -155,6 +156,9 @@ MonoBehaviour:
   - {fileID: 7464160001179912307, guid: e893d136aa8f145df93904938fda4202, type: 3}
   - {fileID: 7464160001179912307, guid: c160ec2dd0b974b81929edf88c6952d8, type: 3}
   - {fileID: 7464160001179912307, guid: ac30386af80674396b746f16021160f0, type: 3}
+  bulletsQueueLength: 10
+  bulletsQueue: []
+  nextBullet: {fileID: 0}
 --- !u!4 &38877956
 Transform:
   m_ObjectHideFlags: 0
@@ -1770,8 +1774,11 @@ MonoBehaviour:
   ammo: {fileID: 38877955}
   minRotationAngle: -30
   maxRotationAngle: 30
+  minVertAngle: -50
+  maxVertAngle: 20
   intersectionPoint: 18.5
   mainCamera: {fileID: 963194227}
+  nextBullet: {fileID: 0}
 --- !u!4 &1791426320
 Transform:
   m_ObjectHideFlags: 0
