@@ -7,8 +7,8 @@ public class TowerRing : MonoBehaviour
 {
     private BrickBehavior brick;
     public List<BrickBehavior> bricks = new List<BrickBehavior>();
-    public bool isHide = false;
 
+    private bool isHide = false;
     public bool IsBasicColor
     {
         get
@@ -63,5 +63,16 @@ public class TowerRing : MonoBehaviour
         }
     }
 
-    
+    public List<Color> GetColorArr()
+    {
+        List<Color> colors = new List<Color>();
+
+        foreach (var item in bricks)
+        {
+            var col = item.GetComponent<Renderer>().sharedMaterial.color;
+            if(col != Color.black)
+            colors.Add(col);
+        }
+        return colors;
+    }
 }
