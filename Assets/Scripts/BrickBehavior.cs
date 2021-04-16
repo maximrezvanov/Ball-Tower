@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class BrickBehavior : MonoBehaviour
 {
     private Renderer rend;
-    public int colorIndex;
+    public int colorIndex = 9;
     private Bullet bullet;
     public bool IsMatch = false;
 
@@ -13,12 +14,20 @@ public class BrickBehavior : MonoBehaviour
     void Awake()
     {
         rend = GetComponent<Renderer>();
+        
     }
 
     private void Start()
     {
         bullet = FindObjectOfType<Bullet>();
+        if (colorIndex == 9)
+        {
+            IsMatch = true;
+
+        }
     }
+
+    
 
     public void SetMaterial(int colorIndex)
     {
@@ -35,6 +44,19 @@ public class BrickBehavior : MonoBehaviour
             Destroy(collision.gameObject);
             rend.material.color = Color.black;
             IsMatch = true;
+
         }
+    }
+
+    public List<BrickBehavior> InitBrick(int brickCount)
+    {
+        List<BrickBehavior> bricksList = new List<BrickBehavior>();
+        BrickBehavior brick = new BrickBehavior();
+        
+        for (int i = 0; i < brickCount; i++)
+        {
+            bricksList.Add(brick);
+        }
+        return bricksList;
     }
 }

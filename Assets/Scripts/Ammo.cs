@@ -6,10 +6,11 @@ using UnityEngine;
 public class Ammo : MonoBehaviour
 {
     public Bullet[] bullets;
+    private Tower tower;
     [SerializeField] private int bulletsQueueLength = 10;
     public List<Bullet> bulletsQueue = new List<Bullet>();
     [SerializeField] GameObject nextBullet;
-    [SerializeField] private List<TowerRing> rings;
+     private List<TowerRing> rings = new List<TowerRing>();
     public List<Material> bulletsMaterials = new List<Material>();
 
     List<Color> bullColList = new List<Color>();
@@ -19,6 +20,13 @@ public class Ammo : MonoBehaviour
     public bool IsEmpty()
     {
         return false;
+    }
+
+
+    private void Awake()
+    {
+        tower = FindObjectOfType<Tower>();
+        rings = tower.rings;
     }
 
     private void Start()

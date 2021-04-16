@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public List<TowerRing> rings = new List<TowerRing>();
+    private List<TowerRing> rings = new List<TowerRing>();
     public List<Material> mats;
     public static GameController Instance;
-    private BoxHandler box;
-    [SerializeField] int minRingsToWin = 4;
+    [SerializeField] private BoxHandler box;
+    private Tower tower;
+
+    //[SerializeField] int minRingsToWin = 4;
 
     private void Awake()
     {
@@ -16,7 +18,9 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        box = FindObjectOfType<BoxHandler>(); 
+        box = FindObjectOfType<BoxHandler>();
+        tower = FindObjectOfType<Tower>();
+        rings = tower.rings;
     }
 
     private void Update()
@@ -27,6 +31,7 @@ public class GameController : MonoBehaviour
     private void FinishLevel()
     {
         OpenTheBoxToWin();
+        //DestroyRingsToWin();
     }
 
     private void OpenTheBoxToWin()
@@ -35,18 +40,18 @@ public class GameController : MonoBehaviour
             SceneController.I.LoadLevel();
     }
 
-    private void DestroyRingsToWin()
-    {
-        if (rings.Count <= minRingsToWin)
-        {
-            SceneController.I.LoadLevel();
-        }
-    }
+    //private void DestroyRingsToWin()
+    //{
+    //    if (rings.Count <= minRingsToWin)
+    //    {
+    //        SceneController.I.LoadLevel();
+    //    }
+    //}
 
     public void DestroyRing(TowerRing ring)
     {
         rings.Remove(ring);
     }
 
-    
+
 }

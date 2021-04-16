@@ -15,7 +15,6 @@ public class Gun : MonoBehaviour
     [SerializeField] float minAngleX;
     [SerializeField] float maxAngleX;
 
-
     private int count = 0;
     private int countV = 0;
 
@@ -45,6 +44,7 @@ public class Gun : MonoBehaviour
     {
         LaunchProjectile();
     }
+    
 
     void LaunchProjectile()
     {
@@ -55,7 +55,6 @@ public class Gun : MonoBehaviour
         float gunAngle = look.eulerAngles.y;
         float gunAngleX = look.eulerAngles.x;
 
-
         if (IsBetween(minRotationAngle, maxRotationAngle, gunAngle))
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, gunAngle, transform.rotation.eulerAngles.z);
@@ -65,12 +64,11 @@ public class Gun : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(gunAngleX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
-
         if (Input.GetMouseButtonDown(0))
         {
             Bullet prefab = ammo.GetBullet();
             var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
-            bullet.SetVelocity(direction * speed);
+            bullet.SetVelocity(transform.forward * speed);
         }
     }
 
@@ -83,8 +81,11 @@ public class Gun : MonoBehaviour
         Gizmos.DrawLine(mainCamera.transform.position, mousePosition);
         Gizmos.color = Color.red;
         Gizmos.DrawLine(mainCamera.transform.position, point);
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.blue;
         Gizmos.DrawLine(shootPoint.position, shootPoint.position + direction * speed);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(shootPoint.position, shootPoint.position + transform.forward * speed);
+
     }
 
     bool IsBetween(float start, float end, float mid)

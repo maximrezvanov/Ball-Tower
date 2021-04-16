@@ -5,17 +5,12 @@ using UnityEngine;
 
 public class TowerRing : MonoBehaviour
 {
-    private BrickBehavior brick;
-    public List<BrickBehavior> bricks = new List<BrickBehavior>();
+    [SerializeField] private List<BrickBehavior> bricks = new List<BrickBehavior>();
 
     private bool isHide = false;
-    public bool IsBasicColor
-    {
-        get
-        {
-            return brick.ColorIndex == 0;
-        }
-    }
+    [SerializeField] int colorCount = 4;
+    [SerializeField] int brickColoredCount = 4;
+
 
     private void Start()
     {
@@ -26,23 +21,25 @@ public class TowerRing : MonoBehaviour
     {
         InitRings();
     }
-
+    
     private void InitRings()
     {
-        List<int> indexes = Enumerable.Range(0, bricks.Count).ToList();
-        for (int i = 0; i < bricks.Count; i++)
+        for (int i = 0; i < brickColoredCount; i++)
         {
-            BrickBehavior item = (BrickBehavior)bricks[i];
-            int index = Random.Range(0, indexes.Count);
-            int rnd = indexes[index];
-            item.SetMaterial(rnd);
-            indexes.Remove(rnd);
+            List<int> indexes = Enumerable.Range(0, bricks.Count).ToList();
+            int colorIndex = Random.Range(0, colorCount);
+            int brickIndex = Random.Range(0, indexes.Count);
+            bricks[brickIndex].SetMaterial(colorIndex);
+            indexes.Remove(brickIndex);
+
         }
+
     }
 
     private void LateUpdate()
     {
         HideRing();
+
     }
     private void HideRing()
     {
