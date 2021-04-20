@@ -1628,7 +1628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c8a6220b95fb4c0894e97a9b445d380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringsCount: 4
+  ringsCount: 6
   ringPrefab: {fileID: 8900560602876183379, guid: 9451911df53ca4d689c0fada933fe3a9,
     type: 3}
   spawnPoint: {fileID: 2081507137}

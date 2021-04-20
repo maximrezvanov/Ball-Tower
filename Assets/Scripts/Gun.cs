@@ -14,13 +14,12 @@ public class Gun : MonoBehaviour
     [SerializeField] float maxRotationAngle;
     [SerializeField] float minAngleX;
     [SerializeField] float maxAngleX;
+    [SerializeField] private ParticleSystem shootPs;
+    [SerializeField] float intersectionPoint = 20f;
+    [SerializeField] private Camera mainCamera;
 
     private int count = 0;
     private int countV = 0;
-
-    [SerializeField] float intersectionPoint = 20f;
-
-    [SerializeField]private Camera mainCamera;
 
     void Start()
     {
@@ -69,6 +68,8 @@ public class Gun : MonoBehaviour
             Bullet prefab = ammo.GetBullet();
             var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
             bullet.SetVelocity(transform.forward * speed);
+            shootPs.Play();
+            SoundController.Instance.PlaySound(SoundController.Instance.shootSound);
         }
     }
 

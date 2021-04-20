@@ -27,7 +27,7 @@ public class SceneController : MonoBehaviour
 
     public IEnumerator NextLevel()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
         int nextLevelIndex = currentLevelIndex + 1;

@@ -10,6 +10,8 @@ public class TowerRing : MonoBehaviour
     private bool isHide = false;
     [SerializeField] int colorCount = 4;
     [SerializeField] int brickColoredCount = 4;
+    [SerializeField] private ParticleSystem particle;
+
 
 
     private void Start()
@@ -52,10 +54,10 @@ public class TowerRing : MonoBehaviour
                 break;
             }
         }
-        if(match)
+        if(match && !isHide)
         {
-            Destroy(gameObject);
-            GameController.Instance.DestroyRing(this);
+            particle.Play();
+            StartCoroutine(DestroyRing());
             isHide = true;
         }
     }
@@ -71,5 +73,13 @@ public class TowerRing : MonoBehaviour
             colors.Add(col);
         }
         return colors;
+    }
+
+    public IEnumerator DestroyRing()
+    {
+        SoundController.Instance.PlaySound(SoundController.Instance.destroyRing);
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+        GameController.Instance.DestroyRing(this);
     }
 }

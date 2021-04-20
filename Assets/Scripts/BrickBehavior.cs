@@ -4,7 +4,7 @@ using UnityEngine;
 public class BrickBehavior : MonoBehaviour
 {
     private Renderer rend;
-    public int colorIndex = 9;
+    public int colorIndex = 0;
     private Bullet bullet;
     public bool IsMatch = false;
 
@@ -20,7 +20,7 @@ public class BrickBehavior : MonoBehaviour
     private void Start()
     {
         bullet = FindObjectOfType<Bullet>();
-        if (colorIndex == 9)
+        if (rend.material.name == "BasicColorMat (Instance)")
         {
             IsMatch = true;
 

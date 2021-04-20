@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
     private void DestroyBullet()
     {
-        if (!rend.isVisible)
+        if (!rend.isVisible || transform.position.z > 20f)
         {
             Destroy(gameObject);
         }
