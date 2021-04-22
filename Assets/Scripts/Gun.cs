@@ -63,6 +63,10 @@ public class Gun : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(gunAngleX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
+        if (!CanShoot())
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             Bullet prefab = ammo.GetBullet();
@@ -94,6 +98,15 @@ public class Gun : MonoBehaviour
         end = (end - start) < 0.0f ? end - start + 360.0f : end - start;
         mid = (mid - start) < 0.0f ? mid - start + 360.0f : mid - start;
         return (mid < end);
+    }
+
+    public bool CanShoot()
+    {
+        if (ammo.IsEmpty())
+        {
+            return false;
+        }
+        return true;
     }
 
 }

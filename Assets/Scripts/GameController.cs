@@ -8,8 +8,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
     [SerializeField] private BoxHandler box;
     private Tower tower;
-
-    //[SerializeField] int minRingsToWin = 4;
+    public bool isWin = false;
 
     private void Awake()
     {
@@ -31,22 +30,13 @@ public class GameController : MonoBehaviour
     private void FinishLevel()
     {
         OpenTheBoxToWin();
-        //DestroyRingsToWin();
     }
 
     private void OpenTheBoxToWin()
     {
-        if(box.isFinishHit)
-            SceneController.I.LoadLevel();
+        if(isWin)
+            SceneController.Instance.LoadLevel();
     }
-
-    //private void DestroyRingsToWin()
-    //{
-    //    if (rings.Count <= minRingsToWin)
-    //    {
-    //        SceneController.I.LoadLevel();
-    //    }
-    //}
 
     public void DestroyRing(TowerRing ring)
     {

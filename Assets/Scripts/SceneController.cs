@@ -6,22 +6,27 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {
 
-    public static SceneController I;
+    public static SceneController Instance;
 
     private void Awake()
     {
-        I = this;
+        Instance = this;
     }
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
+        StartCoroutine(Restart());
     }
 
     public void LoadLevel()
     {
         StartCoroutine(NextLevel());
+
+    }
+    public IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
     }
 

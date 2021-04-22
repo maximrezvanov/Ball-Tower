@@ -10,16 +10,22 @@ public class Ammo : MonoBehaviour
     [SerializeField] private int bulletsQueueLength = 10;
     public List<Bullet> bulletsQueue = new List<Bullet>();
     [SerializeField] GameObject nextBullet;
-     private List<TowerRing> rings = new List<TowerRing>();
+    private List<TowerRing> rings = new List<TowerRing>();
     public List<Material> bulletsMaterials = new List<Material>();
-
     List<Color> bullColList = new List<Color>();
+    public List<Bullet> lastBullets = new List<Bullet>();
+    [SerializeField] private GameObject cannonBall;
+    private bool isLastBull = false;
 
     int index = 0;
 
     public bool IsEmpty()
     {
-        return false;
+        if (lastBullets.Count == 0)
+        {
+            return true;
+        }
+            return false;
     }
 
 
@@ -37,13 +43,34 @@ public class Ammo : MonoBehaviour
 
     public Bullet GetBullet()
     {
+       if(!isLastBull)
+        DetectedColor();
+
+        if (bulletsQueue.Count == 0 && !isLastBull)
+        {
+            LastShoot();
+        }
         var bullet = bulletsQueue[index];
         index = (index + 1) % bulletsQueue.Count;
         var nexBull = bulletsQueue[index];
         ChangeMat(nexBull.GetComponent<Renderer>().sharedMaterial);
-        DetectedColor();
-        return bullet;
 
+        if(isLastBull)
+            bulletsQueue.RemoveAt(0);
+
+        return bullet;
+    }
+
+    private void LastShoot()
+    {
+        Debug.Log("bulletsQueue is empty");
+        index = 0;
+        bulletsQueue = lastBullets;
+        isLastBull = true;
+        UIHandler.Instance.ShowLastBullPanel();
+        cannonBall.SetActive(false);
+        Debug.Log(bulletsQueue.Count);
+     
     }
 
     private void ChangeMat(Material mat)

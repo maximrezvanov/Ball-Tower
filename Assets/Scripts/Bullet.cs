@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     public int colorIndex;
     private Renderer rend;
     private Rigidbody rb;
+    [SerializeField] private float lifeTime = 5f;
 
     private void Awake()
     {
@@ -18,11 +19,12 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         DestroyBullet();
+        lifeTime -= Time.deltaTime;
     }
 
     private void DestroyBullet()
     {
-        if (!rend.isVisible || transform.position.z > 20f)
+        if (!rend.isVisible || transform.position.z > 20f || lifeTime <= 0)
         {
             Destroy(gameObject);
         }
@@ -36,6 +38,7 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         rb.useGravity = true;
+       
     }
 
     public void SetMaterial(int colorIndex)

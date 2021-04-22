@@ -41,6 +41,7 @@ public class BrickBehavior : MonoBehaviour
         if (collision.gameObject.GetComponent<Renderer>().material.color == rend.material.color &&
             collision.gameObject.CompareTag("bullet"))
         {
+            SoundController.Instance.PlaySound(SoundController.Instance.collisionSound);
             Destroy(collision.gameObject);
             rend.material.color = Color.black;
             IsMatch = true;

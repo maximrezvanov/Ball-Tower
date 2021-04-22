@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tower : MonoBehaviour
 {   
-    [Range(0, 10), SerializeField] private int ringsCount;
+    //[Range(0, 10), SerializeField] private int ringsCount;
+     private int ringsCount;
+
     [SerializeField] TowerRing ringPrefab;
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private Transform parent;
@@ -12,11 +15,12 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
+        ringsCount = SceneManager.GetActiveScene().buildIndex + 1;
+
         GetTowerRings();
     }
     public void GetTowerRings()
     {
-
         for (int i = 0; i < ringsCount; i++)
         {
             Vector3 startPosition = new Vector3(spawnPoint.transform.position.x,

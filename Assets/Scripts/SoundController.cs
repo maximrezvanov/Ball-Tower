@@ -8,6 +8,7 @@ public class SoundController : MonoBehaviour
     public AudioClip shootSound;
     public AudioClip destroyRing;
     public AudioClip openedBox;
+    public AudioClip collisionSound;
 
 
     public static SoundController Instance;
