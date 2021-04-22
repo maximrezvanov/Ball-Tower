@@ -17,6 +17,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private ParticleSystem shootPs;
     [SerializeField] float intersectionPoint = 20f;
     [SerializeField] private Camera mainCamera;
+    private bool isReadyToShoot = true;
+
 
     private int count = 0;
     private int countV = 0;
@@ -67,13 +69,14 @@ public class Gun : MonoBehaviour
         {
             return;
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && isReadyToShoot)
         {
             Bullet prefab = ammo.GetBullet();
             var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
             bullet.SetVelocity(transform.forward * speed);
             shootPs.Play();
             SoundController.Instance.PlaySound(SoundController.Instance.shootSound);
+            StartCoroutine(ReadyToShoot());
         }
     }
 
@@ -107,6 +110,13 @@ public class Gun : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public IEnumerator ReadyToShoot()
+    {
+        isReadyToShoot = false;
+        yield return new WaitForSeconds(0.25f);
+        isReadyToShoot = true;
     }
 
 }

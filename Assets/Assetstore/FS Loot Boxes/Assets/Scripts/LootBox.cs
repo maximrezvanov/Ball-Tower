@@ -15,11 +15,12 @@ public class Loot
     /// The loot GameObject prefab.
     /// </summary>
     public GameObject loot;
-
+    public bool isClosed = true;
     /// <summary>
     /// The loot drop chance. 1 to 100% chance of drop.
     /// </summary>
     [Range(0,1)] public float dropChance;
+
 }
 
 /// <summary>
@@ -84,6 +85,7 @@ public class LootBox : MonoBehaviour
     /// instance, you can get what's inside the box.
     /// </summary>
     public event Action <GameObject[]> OnBoxOpen;
+    private TowerRing towerRing;
 
     // Start is called before the first frame update
     void Start()
@@ -93,6 +95,9 @@ public class LootBox : MonoBehaviour
 
         // set the animation to bounce or not
         BounceBox(bouncingBox);
+
+        towerRing = FindObjectOfType<TowerRing>();
+
     }
 
     /// <summary>
@@ -194,7 +199,7 @@ public class LootBox : MonoBehaviour
         if (openingMethod == OpeningMethods.OpenOnTouch) return;
 
         // check if the hitting object is our player
-        if (collision.gameObject.tag == playerTag)
+        if (collision.gameObject.tag == playerTag && towerRing == null)
         {
             // if the method is OpenOnKeyPress, let's just flag the player as close
             if (openingMethod == OpeningMethods.OpenOnKeyPress) isPlayerAround = true;

@@ -49,7 +49,11 @@ public class Ammo : MonoBehaviour
         if (bulletsQueue.Count == 0 && !isLastBull)
         {
             LastShoot();
+
         }
+        if (bulletsQueue.Count == 2)
+            UIHandler.Instance.ShowLastBullPanel();
+        
         var bullet = bulletsQueue[index];
         index = (index + 1) % bulletsQueue.Count;
         var nexBull = bulletsQueue[index];
@@ -57,20 +61,18 @@ public class Ammo : MonoBehaviour
 
         if(isLastBull)
             bulletsQueue.RemoveAt(0);
+        
 
         return bullet;
     }
 
     private void LastShoot()
     {
-        Debug.Log("bulletsQueue is empty");
         index = 0;
         bulletsQueue = lastBullets;
         isLastBull = true;
-        UIHandler.Instance.ShowLastBullPanel();
         cannonBall.SetActive(false);
-        Debug.Log(bulletsQueue.Count);
-     
+        
     }
 
     private void ChangeMat(Material mat)

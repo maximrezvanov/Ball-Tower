@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Tower : MonoBehaviour
 {   
     //[Range(0, 10), SerializeField] private int ringsCount;
-     private int ringsCount;
+     [HideInInspector]public int ringsCount;
 
     [SerializeField] TowerRing ringPrefab;
     [SerializeField] private GameObject spawnPoint;
@@ -15,8 +15,7 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
-        ringsCount = SceneManager.GetActiveScene().buildIndex + 1;
-
+        ringsCount = SceneManager.GetActiveScene().buildIndex + 3;
         GetTowerRings();
     }
     public void GetTowerRings()

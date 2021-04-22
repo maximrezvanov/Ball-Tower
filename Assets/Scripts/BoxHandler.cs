@@ -7,12 +7,13 @@ public class BoxHandler : MonoBehaviour
     [SerializeField] private ParticleSystem particle;
     private Gun gun;
     private Bullet bullet;
+    private TowerRing towerRing;
 
     
     private void Start()
     {
         gun = FindObjectOfType<Gun>();
-
+        towerRing = FindObjectOfType<TowerRing>();
         StartCoroutine(CanShoot());
     }
 
@@ -21,7 +22,7 @@ public class BoxHandler : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin)
+        if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin && towerRing == null)
         {
             SoundController.Instance.PlaySound(SoundController.Instance.openedBox);
             particle.Play();

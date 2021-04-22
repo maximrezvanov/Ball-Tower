@@ -5,7 +5,7 @@ using UnityEngine;
 public class Clouds : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
-    private Renderer rend;
+    public Renderer rend;
 
     void Start()
     {

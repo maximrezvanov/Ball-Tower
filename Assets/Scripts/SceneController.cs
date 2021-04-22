@@ -21,7 +21,6 @@ public class SceneController : MonoBehaviour
     public void LoadLevel()
     {
         StartCoroutine(NextLevel());
-
     }
     public IEnumerator Restart()
     {
