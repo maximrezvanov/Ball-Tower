@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour
     [SerializeField] float intersectionPoint = 20f;
     [SerializeField] private Camera mainCamera;
     private bool isReadyToShoot = true;
-
+    
 
     private int count = 0;
     private int countV = 0;

@@ -9,13 +9,16 @@ public class Ammo : MonoBehaviour
     private Tower tower;
     [SerializeField] private int bulletsQueueLength = 10;
     public List<Bullet> bulletsQueue = new List<Bullet>();
-    [SerializeField] GameObject nextBullet;
+    [SerializeField] private GameObject nextBullet;
     private List<TowerRing> rings = new List<TowerRing>();
     public List<Material> bulletsMaterials = new List<Material>();
     List<Color> bullColList = new List<Color>();
     public List<Bullet> lastBullets = new List<Bullet>();
     [SerializeField] private GameObject cannonBall;
+
     private bool isLastBull = false;
+    Bullet nextBull;
+
 
     int index = 0;
 
@@ -25,7 +28,7 @@ public class Ammo : MonoBehaviour
         {
             return true;
         }
-            return false;
+        return false;
     }
 
 
@@ -37,34 +40,46 @@ public class Ammo : MonoBehaviour
 
     private void Start()
     {
+
         GenerateBulletsQueue();
+        StartCoroutine(ChangeCurrentColor());
+        InitColors();
+
+    }
+
+    private void InitColors()
+    {
+        index = (index + 1) % bulletsQueue.Count;
+        nextBull = bulletsQueue[index];
+        ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
 
     }
 
     public Bullet GetBullet()
     {
-       if(!isLastBull)
-        DetectedColor();
+        if (!isLastBull)
+            DetectedColor();
 
         if (bulletsQueue.Count == 0 && !isLastBull)
         {
             LastShoot();
-
         }
         if (bulletsQueue.Count == 2)
+        {
             UIHandler.Instance.ShowLastBullPanel();
-        
-        var bullet = bulletsQueue[index];
-        index = (index + 1) % bulletsQueue.Count;
-        var nexBull = bulletsQueue[index];
-        ChangeMat(nexBull.GetComponent<Renderer>().sharedMaterial);
+        }
 
-        if(isLastBull)
+        var bullet = bulletsQueue[index];
+        Debug.Log(bullet.GetComponent<Renderer>().sharedMaterial);
+        InitColors();
+        if (isLastBull)
+        {
             bulletsQueue.RemoveAt(0);
-        
+        }
 
         return bullet;
     }
+
 
     private void LastShoot()
     {
@@ -72,13 +87,14 @@ public class Ammo : MonoBehaviour
         bulletsQueue = lastBullets;
         isLastBull = true;
         cannonBall.SetActive(false);
-        
+
     }
 
-    private void ChangeMat(Material mat)
+    public void ChangeMat(GameObject gameObject, Material mat)
     {
-        nextBullet.GetComponent<Renderer>().material = mat;
+        gameObject.GetComponent<Renderer>().material = mat;
     }
+
 
     public void GenerateBulletsQueue()
     {
@@ -92,9 +108,10 @@ public class Ammo : MonoBehaviour
                 bulletsQueue.Add(bullets[index]);
             }
         }
+
     }
 
-    private void DetectedColor()
+    public void DetectedColor()
     {
         List<Color> brickColList = new List<Color>();
 
@@ -114,10 +131,8 @@ public class Ammo : MonoBehaviour
             var bullColor = bullMat.color;
 
             bullColList.Add(bullColor);
-        }
 
-        //Debug.Log(brickColList.Count);
-        //Debug.Log(bullColList.Count);
+        }
 
         bullColList = bullColList.Intersect(brickColList).ToList();
         RemoveRedundantBullet();
@@ -145,6 +160,20 @@ public class Ammo : MonoBehaviour
 
     }
 
+    public IEnumerator ChangeCurrentColor()
+    {
+
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if (!isLastBull)
+            {
+                DetectedColor();
+                nextBullet.GetComponent<Renderer>().sharedMaterial = bulletsQueue[index].GetComponent<Renderer>().sharedMaterial;
+
+            }
+        }
+    }
 
     //public Bullet SetMaterial(int index)
     //{

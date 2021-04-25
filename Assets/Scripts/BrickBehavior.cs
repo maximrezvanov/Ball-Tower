@@ -7,7 +7,7 @@ public class BrickBehavior : MonoBehaviour
     public int colorIndex = 0;
     private Bullet bullet;
     public bool IsMatch = false;
-
+    private Color basicColor = new Color(0.6517889f, 0.7342701f, 0.9150f);
 
     public int ColorIndex => colorIndex;
 
@@ -43,7 +43,7 @@ public class BrickBehavior : MonoBehaviour
         {
             SoundController.Instance.PlaySound(SoundController.Instance.collisionSound);
             Destroy(collision.gameObject);
-            rend.material.color = Color.black;
+            rend.material.color = basicColor;
             IsMatch = true;
 
         }

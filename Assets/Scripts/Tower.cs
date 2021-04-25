@@ -15,7 +15,7 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
-        ringsCount = SceneManager.GetActiveScene().buildIndex + 3;
+        ringsCount = SceneManager.GetActiveScene().buildIndex + 1;
         GetTowerRings();
     }
     public void GetTowerRings()

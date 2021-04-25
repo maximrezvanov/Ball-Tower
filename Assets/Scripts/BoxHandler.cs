@@ -22,7 +22,7 @@ public class BoxHandler : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin && towerRing == null)
+        if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin && towerRing != null)
         {
             SoundController.Instance.PlaySound(SoundController.Instance.openedBox);
             particle.Play();
