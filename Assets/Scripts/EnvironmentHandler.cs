@@ -4,30 +4,16 @@ using UnityEngine;
 
 public class EnvironmentHandler : MonoBehaviour
 {
-    private Renderer rend;
-    private Color color;
+    [SerializeField] private float speedRotate;
+    [SerializeField] private List<GameObject> hexsList = new List<GameObject>();
 
-    public int colorIndex = 0;
+   
 
-    void Awake()
+    private void Update()
     {
-        rend = GetComponent<Renderer>();
-        color = rend.material.color;
-    }
-
-    void Start()
-    {
-        colorIndex = Random.Range(0, GameController.Instance.mats.Count);
-        SetMaterial(colorIndex);
-        color.a = 10f;
-
+        transform.Rotate(Vector3.up * speedRotate);
     }
 
 
 
-    public void SetMaterial(int colorIndex)
-    {
-        this.colorIndex = colorIndex;
-        rend.material = GameController.Instance.mats[colorIndex];
-    }
 }

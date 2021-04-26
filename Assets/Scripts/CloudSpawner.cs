@@ -7,8 +7,8 @@ public class CloudSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> clouds = new List<GameObject>();
     [SerializeField] private Transform spawnerPoint;
     [SerializeField] private float spawnTime = 3f;
-    private float yRange; // 9-12
-    private float zRange; // 12-16
+    private float yRange; 
+    private float zRange; 
     private Vector3 spawnPos;
 
     void Start()
@@ -21,8 +21,8 @@ public class CloudSpawner : MonoBehaviour
     {
         while (true)
         {
-            yRange = Random.Range(9f, 15f);
-            zRange = Random.Range(10f, 16f);
+            yRange = Random.Range(spawnerPoint.position.y, spawnerPoint.position.y + 3);
+            zRange = Random.Range(spawnerPoint.position.z, spawnerPoint.position.z + 4);
             spawnPos = new Vector3(spawnerPoint.position.x, yRange, zRange);
             int index = Random.Range(0, clouds.Count);
             var cloud = Instantiate(clouds[index], spawnPos, spawnerPoint.rotation);

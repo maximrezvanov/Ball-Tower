@@ -11,7 +11,6 @@ public class Ammo : MonoBehaviour
     public List<Bullet> bulletsQueue = new List<Bullet>();
     [SerializeField] private GameObject nextBullet;
     private List<TowerRing> rings = new List<TowerRing>();
-    public List<Material> bulletsMaterials = new List<Material>();
     List<Color> bullColList = new List<Color>();
     public List<Bullet> lastBullets = new List<Bullet>();
     [SerializeField] private GameObject cannonBall;
@@ -70,13 +69,11 @@ public class Ammo : MonoBehaviour
         }
 
         var bullet = bulletsQueue[index];
-        Debug.Log(bullet.GetComponent<Renderer>().sharedMaterial);
         InitColors();
         if (isLastBull)
         {
             bulletsQueue.RemoveAt(0);
         }
-
         return bullet;
     }
 
@@ -129,9 +126,7 @@ public class Ammo : MonoBehaviour
         {
             var bullMat = bullets.GetComponent<Renderer>().sharedMaterial;
             var bullColor = bullMat.color;
-
             bullColList.Add(bullColor);
-
         }
 
         bullColList = bullColList.Intersect(brickColList).ToList();
@@ -165,12 +160,13 @@ public class Ammo : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForEndOfFrame();
             if (!isLastBull)
             {
                 DetectedColor();
-                nextBullet.GetComponent<Renderer>().sharedMaterial = bulletsQueue[index].GetComponent<Renderer>().sharedMaterial;
-
+                if (bulletsQueue.Count > 0)
+                    nextBullet.GetComponent<Renderer>().sharedMaterial = bulletsQueue[index].GetComponent<Renderer>().sharedMaterial;
+                else nextBullet.GetComponent<Renderer>().sharedMaterial = lastBullets[0].GetComponent<Renderer>().sharedMaterial;
             }
         }
     }

@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
     [SerializeField] float maxAngleX;
     [SerializeField] private ParticleSystem shootPs;
     [SerializeField] float intersectionPoint = 20f;
-    [SerializeField] private Camera mainCamera;
+    private Camera mainCamera;
     private bool isReadyToShoot = true;
     
 
@@ -80,21 +80,21 @@ public class Gun : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.nearClipPlane));
-        Vector3 point = mainCamera.transform.position + (mousePosition - mainCamera.transform.position).normalized * intersectionPoint;
-        Vector3 direction = (point - shootPoint.position).normalized;
-        Gizmos.DrawSphere(mousePosition, 0.3f);
-        Gizmos.DrawLine(mainCamera.transform.position, mousePosition);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(mainCamera.transform.position, point);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(shootPoint.position, shootPoint.position + direction * speed);
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(shootPoint.position, shootPoint.position + transform.forward * speed);
+    //private void OnDrawGizmos()
+    //{
+    //    Vector3 mousePosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.nearClipPlane));
+    //    Vector3 point = mainCamera.transform.position + (mousePosition - mainCamera.transform.position).normalized * intersectionPoint;
+    //    Vector3 direction = (point - shootPoint.position).normalized;
+    //    Gizmos.DrawSphere(mousePosition, 0.3f);
+    //    Gizmos.DrawLine(mainCamera.transform.position, mousePosition);
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawLine(mainCamera.transform.position, point);
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawLine(shootPoint.position, shootPoint.position + direction * speed);
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawLine(shootPoint.position, shootPoint.position + transform.forward * speed);
 
-    }
+    //}
 
     bool IsBetween(float start, float end, float mid)
     {
@@ -115,7 +115,7 @@ public class Gun : MonoBehaviour
     public IEnumerator ReadyToShoot()
     {
         isReadyToShoot = false;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         isReadyToShoot = true;
     }
 
