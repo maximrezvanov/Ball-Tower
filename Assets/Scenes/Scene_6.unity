@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.6901961, g: 0.8980392, b: 0.94509804, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -1157,6 +1157,7 @@ MonoBehaviour:
   levelInvironmentPrefabs:
   - {fileID: 693095195532385426, guid: 0df7b9de454ca47a59671307a9bec61f, type: 3}
   - {fileID: 6149225205654348398, guid: e866893f2494e4df98b3a15688af9f1e, type: 3}
+  - {fileID: 8816162619491211190, guid: 83f2972cae3a44f92bd45863a470d35b, type: 3}
   mats:
   - {fileID: 2100000, guid: 705fc74913580437788132d4f6b6079a, type: 2}
   - {fileID: 2100000, guid: 56cdd1531482c4ecbad9862ce2161455, type: 2}
@@ -1220,7 +1221,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.764151, g: 0.7417847, b: 0.7245016, a: 0}
+  m_BackGroundColor: {r: 0.6897472, g: 0.8985739, b: 0.9433962, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1261,7 +1262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.029404584, y: 0, z: 0, w: 0.9995676}
-  m_LocalPosition: {x: 3.3, y: 11, z: -34}
+  m_LocalPosition: {x: 0.33, y: 11, z: -9.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

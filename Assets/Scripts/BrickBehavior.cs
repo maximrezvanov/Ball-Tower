@@ -43,6 +43,7 @@ public class BrickBehavior : MonoBehaviour
         {
             SoundController.Instance.PlaySound(SoundController.Instance.collisionSound);
             Destroy(collision.gameObject);
+            Debug.Log(rend.material.name);
             rend.material.color = basicColor;
             IsMatch = true;
 

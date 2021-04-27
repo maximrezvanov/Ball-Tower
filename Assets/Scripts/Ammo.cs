@@ -48,16 +48,18 @@ public class Ammo : MonoBehaviour
 
     private void InitColors()
     {
-        index = (index + 1) % bulletsQueue.Count;
-        nextBull = bulletsQueue[index];
-        ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
+        //index = (index + 1) % bulletsQueue.Count;
+        //ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
 
     }
 
     public Bullet GetBullet()
     {
-        if (!isLastBull)
-            DetectedColor();
+        index++;
+
+        Debug.Log(index);
+        //if (!isLastBull)
+        //    DetectedColor();
 
         if (bulletsQueue.Count == 0 && !isLastBull)
         {
@@ -69,7 +71,10 @@ public class Ammo : MonoBehaviour
         }
 
         var bullet = bulletsQueue[index];
-        InitColors();
+
+        nextBull = bulletsQueue[index + 1];
+        ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
+
         if (isLastBull)
         {
             bulletsQueue.RemoveAt(0);
@@ -95,14 +100,14 @@ public class Ammo : MonoBehaviour
 
     public void GenerateBulletsQueue()
     {
-        index = 0;
+        int colIndex = 0;
         for (int i = 0; i < bulletsQueueLength; i++)
         {
             for (int j = 0; j < bullets.Length; j++)
             {
-                index = Random.Range(0, bullets.Length);
+                colIndex = Random.Range(0, bullets.Length);
 
-                bulletsQueue.Add(bullets[index]);
+                bulletsQueue.Add(bullets[colIndex]);
             }
         }
 
@@ -165,7 +170,7 @@ public class Ammo : MonoBehaviour
             {
                 DetectedColor();
                 if (bulletsQueue.Count > 0)
-                    nextBullet.GetComponent<Renderer>().sharedMaterial = bulletsQueue[index].GetComponent<Renderer>().sharedMaterial;
+                    nextBullet.GetComponent<Renderer>().sharedMaterial = bulletsQueue[index + 1].GetComponent<Renderer>().sharedMaterial;
                 else nextBullet.GetComponent<Renderer>().sharedMaterial = lastBullets[0].GetComponent<Renderer>().sharedMaterial;
             }
         }

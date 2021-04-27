@@ -55,8 +55,9 @@ public class GameController : MonoBehaviour
         {
             index = 0;
         }
-        var prefab = Instantiate(levelInvironmentPrefabs[index], Vector3.zero, Quaternion.identity);
+        var prefab = Instantiate(levelInvironmentPrefabs[index]);
 
+        //prefab.transform.Rotate(0, 90f, 0);
 
     }
 
