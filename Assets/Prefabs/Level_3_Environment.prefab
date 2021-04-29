@@ -98,6 +98,8 @@ MonoBehaviour:
   maxAngleX: 10
   shootPs: {fileID: 2009728419911257934}
   intersectionPoint: 18.5
+  shootBonus: 1
+  bullCounter: 0
 --- !u!1 &1827446717607642022
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +244,9 @@ MonoBehaviour:
   - {fileID: 7464160001179912307, guid: e893d136aa8f145df93904938fda4202, type: 3}
   - {fileID: 7464160001179912307, guid: ac30386af80674396b746f16021160f0, type: 3}
   bulletsQueueLength: 100
+  superBallsCount: 10
   bulletsQueue: []
+  superBalls: []
   nextBullet: {fileID: 1827446719189626948}
   lastBullets:
   - {fileID: 7464160001179912307, guid: f1415cacbadff421883d8448b2ffdb75, type: 3}
@@ -705,6 +709,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 1827446718570126413}
   parent: {fileID: 1827446718570126412}
   rings: []
+  count: 0
 --- !u!1 &1827446718706541211
 GameObject:
   m_ObjectHideFlags: 0

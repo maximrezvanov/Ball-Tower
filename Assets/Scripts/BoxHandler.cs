@@ -22,9 +22,11 @@ public class BoxHandler : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin && towerRing == null)
-        {
-            SoundController.Instance.PlaySound(SoundController.Instance.openedBox);
+        //if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin && towerRing == null)
+            if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin)
+
+            {
+                SoundController.Instance.PlaySound(SoundController.Instance.openedBox);
             particle.Play();
             GameController.Instance.isWin = true;
         

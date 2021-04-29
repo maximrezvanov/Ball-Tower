@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
@@ -9,23 +11,37 @@ public class GameController : MonoBehaviour
     public List<Material> mats;
     public static GameController Instance;
     private Tower tower;
+    private Ammo ammo;
+    private Gun gun;
     public bool isWin = false;
+    public bool isShowUI = true;
     private Vector3 initPosition = new Vector3(-3.15f, -6f, 20f);
-    private int index = 0;
+    private static int index = 0;
+    private static int lastIndex = 0;
+    [HideInInspector] public bool isSuperBallCollision = false;
+    private List<int> indexes = new List<int>();
+    private int totalBullets = 1;
+    private bool isCountNull;
+
+    public event UnityAction<int> BullCount;
+
     private void Awake()
     {
-       Instance = this;
+        Instance = this;
         ConstructLevel();
 
     }
 
     private void Start()
     {
+        ammo = FindObjectOfType<Ammo>();
         tower = FindObjectOfType<Tower>();
-
+        gun = FindObjectOfType<Gun>();
         rings = tower.rings;
+        StartCoroutine(CountBull());
 
     }
+
 
     private void Update()
     {
@@ -39,7 +55,7 @@ public class GameController : MonoBehaviour
 
     private void OpenTheBoxToWin()
     {
-        if(isWin)
+        if (isWin)
             SceneController.Instance.LoadLevel();
     }
 
@@ -48,16 +64,60 @@ public class GameController : MonoBehaviour
         rings.Remove(ring);
     }
 
-   private void ConstructLevel()
-   {
-        index = SceneManager.GetActiveScene().buildIndex % levelInvironmentPrefabs.Count;
-        if(index == SceneManager.sceneCountInBuildSettings)
+    private void ConstructLevel()
+    {
+        //index = SceneManager.GetActiveScene().buildIndex % levelInvironmentPrefabs.Count
+        //if (index == SceneManager.sceneCountInBuildSettings)
+        //{
+        //    index = 0;
+        //}
+        lastIndex = index;
+
+        index = (index + Random.Range(0, levelInvironmentPrefabs.Count)) % levelInvironmentPrefabs.Count;
+
+        while (index == lastIndex)
         {
-            index = 0;
+            index = (index + Random.Range(0, levelInvironmentPrefabs.Count)) % levelInvironmentPrefabs.Count;
         }
+
         var prefab = Instantiate(levelInvironmentPrefabs[index]);
 
-        //prefab.transform.Rotate(0, 90f, 0);
+
+    }
+
+    public IEnumerator CountBull()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.1f);
+
+            totalBullets = tower.count + gun.shootBonus - gun.bullCounter;
+
+            if (!ammo.IsEmptyMainAmmo() && !isCountNull && totalBullets < 0 && rings.Count != 0)
+            {
+                isCountNull = true;
+            }
+
+            if (ammo.IsEmptyMainAmmo() || rings.Count == 0)
+            {
+                UIHandler.Instance.HideBulletsPanel();
+                isCountNull = false;
+                Debug.Log("IsEmptyMainAmmo");
+                Debug.Log(isCountNull);
+
+            }
+
+            if (isCountNull && !ammo.IsEmptyMainAmmo())
+            {
+                UIHandler.Instance.HideBulletsPanel();
+                UIHandler.Instance.ShowlosingPanel();
+                SceneController.Instance.RestartLevel();
+
+            }
+            BullCount?.Invoke(totalBullets);
+            //Debug.Log("TB " + totalBullets);
+        }
+
 
     }
 

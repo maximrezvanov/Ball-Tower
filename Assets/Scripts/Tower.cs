@@ -12,11 +12,14 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private Transform parent;
     public List<TowerRing> rings = new List<TowerRing>();
+    public int count = 0;
 
     private void Start()
     {
         ringsCount = SceneManager.GetActiveScene().buildIndex + 1;
+        //ringsCount = 1;
         GetTowerRings();
+        StartCoroutine(CountColoredBricks());
     }
     public void GetTowerRings()
     {
@@ -32,5 +35,15 @@ public class Tower : MonoBehaviour
 
     }
 
+   
+    private IEnumerator CountColoredBricks()
+    {
+        yield return new WaitForEndOfFrame();
 
+        foreach (var item in rings)
+        {
+            count += item.coloredCounter;
+        }
+
+    }
 }

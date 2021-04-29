@@ -7,7 +7,7 @@ public class SceneController : MonoBehaviour
 {
 
     public static SceneController Instance;
-
+    public int currentIndex;
     private void Awake()
     {
         Instance = this;

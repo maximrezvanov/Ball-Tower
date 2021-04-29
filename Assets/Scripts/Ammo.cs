@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,19 +8,24 @@ public class Ammo : MonoBehaviour
 {
     public Bullet[] bullets;
     private Tower tower;
-    [SerializeField] private int bulletsQueueLength = 10;
+    private BrickBehavior brick;
+    [SerializeField] private int bulletsQueueLength = 1;
+    [SerializeField] private int superBallsCount = 10;
     public List<Bullet> bulletsQueue = new List<Bullet>();
+    public List<Bullet> superBalls = new List<Bullet>();
+
     [SerializeField] private GameObject nextBullet;
     private List<TowerRing> rings = new List<TowerRing>();
     List<Color> bullColList = new List<Color>();
     public List<Bullet> lastBullets = new List<Bullet>();
     [SerializeField] private GameObject cannonBall;
-
     private bool isLastBull = false;
     Bullet nextBull;
-
-
+    private int superBallIndex;
     int index = 0;
+    private List<int> superIndexes = new List<int>();
+    public Action FiredSuperBall;
+
 
     public bool IsEmpty()
     {
@@ -30,10 +36,20 @@ public class Ammo : MonoBehaviour
         return false;
     }
 
+    public bool IsEmptyMainAmmo()
+    {
+        if (bulletsQueue.Count == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     private void Awake()
     {
         tower = FindObjectOfType<Tower>();
+        brick = FindObjectOfType<BrickBehavior>();
         rings = tower.rings;
     }
 
@@ -43,7 +59,7 @@ public class Ammo : MonoBehaviour
         GenerateBulletsQueue();
         StartCoroutine(ChangeCurrentColor());
         InitColors();
-
+        GenerateSuperBalls();
     }
 
     private void InitColors()
@@ -55,9 +71,9 @@ public class Ammo : MonoBehaviour
 
     public Bullet GetBullet()
     {
+        if(!isLastBull)
         index++;
 
-        Debug.Log(index);
         //if (!isLastBull)
         //    DetectedColor();
 
@@ -69,25 +85,36 @@ public class Ammo : MonoBehaviour
         {
             UIHandler.Instance.ShowLastBullPanel();
         }
-
         var bullet = bulletsQueue[index];
-
-        nextBull = bulletsQueue[index + 1];
-        ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
-
+        if (!isLastBull)
+        {
+            nextBull = bulletsQueue[index + 1];
+            ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
+        }
+        
         if (isLastBull)
         {
             bulletsQueue.RemoveAt(0);
         }
+
+        bullet.tag = "bullet";
+
+        DetectedSuperBall();
+        Debug.Log(index);
         return bullet;
     }
 
 
     private void LastShoot()
     {
-        index = 0;
         bulletsQueue = lastBullets;
+        index = 0;
         isLastBull = true;
+        HideCannonBall();
+    }
+
+    public void HideCannonBall()
+    {
         cannonBall.SetActive(false);
 
     }
@@ -105,13 +132,44 @@ public class Ammo : MonoBehaviour
         {
             for (int j = 0; j < bullets.Length; j++)
             {
-                colIndex = Random.Range(0, bullets.Length);
+                colIndex = UnityEngine.Random.Range(0, bullets.Length);
 
                 bulletsQueue.Add(bullets[colIndex]);
             }
         }
 
     }
+
+    public void GenerateSuperBalls()
+    {
+        for (int i = 0; i < superBallsCount; i++)
+        {
+            superBallIndex = UnityEngine.Random.Range(0, bulletsQueue.Count);
+            superIndexes.Add(superBallIndex);
+            Debug.Log(superBallIndex);
+        }
+    }
+
+    private void DetectedSuperBall()
+    {
+        for (int i = 0; i < superIndexes.Count; i++)
+        {
+            if (superIndexes[i] == index)
+            {
+                bulletsQueue[superIndexes[i]].tag = "superBall";
+            }
+        }
+    }
+
+    //private void TestSb()
+    //{
+    //    if (index == 2)
+    //    {
+    //        bulletsQueue[index].tag = "superBall";
+    //        Debug.Log(" Tag superBall");
+
+    //    }
+    //}
 
     public void DetectedColor()
     {

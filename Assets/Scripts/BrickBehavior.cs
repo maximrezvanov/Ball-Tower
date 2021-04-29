@@ -8,6 +8,8 @@ public class BrickBehavior : MonoBehaviour
     private Bullet bullet;
     public bool IsMatch = false;
     private Color basicColor = new Color(0.6517889f, 0.7342701f, 0.9150f);
+    public bool test = false;
+    public bool isSuperBall;
 
     public int ColorIndex => colorIndex;
 
@@ -23,11 +25,8 @@ public class BrickBehavior : MonoBehaviour
         if (rend.material.name == "BasicColorMat (Instance)")
         {
             IsMatch = true;
-
         }
     }
-
-    
 
     public void SetMaterial(int colorIndex)
     {
@@ -46,7 +45,15 @@ public class BrickBehavior : MonoBehaviour
             Debug.Log(rend.material.name);
             rend.material.color = basicColor;
             IsMatch = true;
+            test = true;
+        }
 
+        if (collision.gameObject.GetComponent<Renderer>().material.color == rend.material.color
+            && collision.gameObject.CompareTag("superBall"))
+        {
+            isSuperBall = true;
+            Destroy(collision.gameObject);
+            Debug.Log("br SuperBall coll");
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Gun : MonoBehaviour
 {
@@ -18,10 +19,13 @@ public class Gun : MonoBehaviour
     [SerializeField] float intersectionPoint = 20f;
     private Camera mainCamera;
     private bool isReadyToShoot = true;
-    
+    [HideInInspector] public int shootBonus = 100;
 
     private int count = 0;
     private int countV = 0;
+    public int bullCounter;
+
+
 
     void Start()
     {
@@ -77,6 +81,7 @@ public class Gun : MonoBehaviour
             shootPs.Play();
             SoundController.Instance.PlaySound(SoundController.Instance.shootSound);
             StartCoroutine(ReadyToShoot());
+            bullCounter++;
         }
     }
 
@@ -115,8 +120,9 @@ public class Gun : MonoBehaviour
     public IEnumerator ReadyToShoot()
     {
         isReadyToShoot = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.05f);
         isReadyToShoot = true;
     }
 
 }
+

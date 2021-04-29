@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorIndex: 0
+  lifeTime: 5
 --- !u!96 &-6481247689478707706
 TrailRenderer:
   serializedVersion: 2

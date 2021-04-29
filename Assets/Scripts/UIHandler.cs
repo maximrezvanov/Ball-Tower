@@ -1,22 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
     public static UIHandler Instance;
     public GameObject lastBullPanel;
     public GameObject losingPanel;
+    public GameObject bulletsPanel;
+
     private float showTime = 3.5f;
+    [SerializeField] private Text counterText;
 
     private void Awake()
     {
         Instance = this;
         lastBullPanel.SetActive(false);
         losingPanel.SetActive(false);
+        bulletsPanel.SetActive(true);
+        
 
     }
+    private void Start()
+    {
+        GameController.Instance.BullCount += ShowBullCount;
+    }
 
+    
     public void ShowLastBullPanel()
     {
         lastBullPanel.SetActive(true);
@@ -28,7 +39,10 @@ public class UIHandler : MonoBehaviour
         lastBullPanel.SetActive(false);
         losingPanel.SetActive(true);
     }
-
+    public void HideBulletsPanel()
+    { 
+       bulletsPanel.SetActive(false);
+    }
 
     public IEnumerator HidePanel(GameObject panel)
     {
@@ -37,4 +51,8 @@ public class UIHandler : MonoBehaviour
 
     }
 
+    public void ShowBullCount(int number)
+    {
+        counterText.text = "bullets: " + number.ToString();
+    }
 }
