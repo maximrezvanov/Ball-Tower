@@ -9,7 +9,7 @@ public class BoxHandler : MonoBehaviour
     private Bullet bullet;
     private TowerRing towerRing;
 
-    
+
     private void Start()
     {
         gun = FindObjectOfType<Gun>();
@@ -18,18 +18,18 @@ public class BoxHandler : MonoBehaviour
     }
 
 
-   
+
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin && towerRing == null ||
+            collision.gameObject.CompareTag("superBall") && !GameController.Instance.isWin && towerRing == null)
+        //if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin)
 
-        //if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin && towerRing == null)
-            if (collision.gameObject.CompareTag("bullet") && !GameController.Instance.isWin)
-
-            {
-                SoundController.Instance.PlaySound(SoundController.Instance.openedBox);
+        {
+            SoundController.Instance.PlaySound(SoundController.Instance.openedBox);
             particle.Play();
             GameController.Instance.isWin = true;
-        
+
         }
 
     }
@@ -50,7 +50,7 @@ public class BoxHandler : MonoBehaviour
 
 
         }
-       
+
     }
 
 }

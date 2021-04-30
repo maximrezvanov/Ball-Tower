@@ -5274,7 +5274,7 @@ MonoBehaviour:
   maxAngleX: 10
   shootPs: {fileID: 3234113961604725531}
   intersectionPoint: 18.5
-  shootBonus: 1
+  shootBonus: 50
   bullCounter: 0
 --- !u!1 &6961695837159545298
 GameObject:
@@ -5579,8 +5579,8 @@ MonoBehaviour:
   - {fileID: 7464160001179912307, guid: c160ec2dd0b974b81929edf88c6952d8, type: 3}
   - {fileID: 7464160001179912307, guid: e893d136aa8f145df93904938fda4202, type: 3}
   - {fileID: 7464160001179912307, guid: ac30386af80674396b746f16021160f0, type: 3}
-  bulletsQueueLength: 100
-  superBallsCount: 10
+  bulletsQueueLength: 25
+  superBallsCount: 8
   bulletsQueue: []
   superBalls: []
   nextBullet: {fileID: 3136648531022832311}

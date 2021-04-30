@@ -14,13 +14,14 @@ public class Tower : MonoBehaviour
     public List<TowerRing> rings = new List<TowerRing>();
     public int count = 0;
 
-    private void Start()
+    public void Init()
     {
-        ringsCount = SceneManager.GetActiveScene().buildIndex + 1;
-        //ringsCount = 1;
+        //ringsCount = SceneManager.GetActiveScene().buildIndex + 1;
+        ringsCount = SceneController.Instance.ringCounter + 1;
         GetTowerRings();
         StartCoroutine(CountColoredBricks());
     }
+
     public void GetTowerRings()
     {
         for (int i = 0; i < ringsCount; i++)
@@ -35,7 +36,6 @@ public class Tower : MonoBehaviour
 
     }
 
-   
     private IEnumerator CountColoredBricks()
     {
         yield return new WaitForEndOfFrame();

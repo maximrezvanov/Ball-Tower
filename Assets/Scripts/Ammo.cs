@@ -53,20 +53,11 @@ public class Ammo : MonoBehaviour
         rings = tower.rings;
     }
 
-    private void Start()
+    public void Init()
     {
-
         GenerateBulletsQueue();
         StartCoroutine(ChangeCurrentColor());
-        InitColors();
         GenerateSuperBalls();
-    }
-
-    private void InitColors()
-    {
-        //index = (index + 1) % bulletsQueue.Count;
-        //ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
-
     }
 
     public Bullet GetBullet()
@@ -98,9 +89,12 @@ public class Ammo : MonoBehaviour
         }
 
         bullet.tag = "bullet";
+        if(bullet.tag == "bullet")
+            bullet.transform.localScale = new Vector3(1f, 1f, 1f);
+
 
         DetectedSuperBall();
-        Debug.Log(index);
+        //Debug.Log(index);
         return bullet;
     }
 
@@ -127,6 +121,7 @@ public class Ammo : MonoBehaviour
 
     public void GenerateBulletsQueue()
     {
+        bulletsQueue.Clear();
         int colIndex = 0;
         for (int i = 0; i < bulletsQueueLength; i++)
         {
@@ -142,6 +137,7 @@ public class Ammo : MonoBehaviour
 
     public void GenerateSuperBalls()
     {
+        superIndexes.Clear();
         for (int i = 0; i < superBallsCount; i++)
         {
             superBallIndex = UnityEngine.Random.Range(0, bulletsQueue.Count);
@@ -157,19 +153,10 @@ public class Ammo : MonoBehaviour
             if (superIndexes[i] == index)
             {
                 bulletsQueue[superIndexes[i]].tag = "superBall";
+                bulletsQueue[superIndexes[i]].transform.localScale += new Vector3(1.2f, 1.2f, 1.2f);
             }
         }
     }
-
-    //private void TestSb()
-    //{
-    //    if (index == 2)
-    //    {
-    //        bulletsQueue[index].tag = "superBall";
-    //        Debug.Log(" Tag superBall");
-
-    //    }
-    //}
 
     public void DetectedColor()
     {

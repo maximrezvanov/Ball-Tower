@@ -72,6 +72,7 @@ public class TowerRing : MonoBehaviour
         if (match && !isHide)
         {
             StartDestroying();
+            SoundController.Instance.PlaySound(SoundController.Instance.destroyRing);
             isHide = true;
         }
     }
@@ -98,10 +99,9 @@ public class TowerRing : MonoBehaviour
 
     public IEnumerator DestroyRing()
     {
-        SoundController.Instance.PlaySound(SoundController.Instance.destroyRing);
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
-        GameController.Instance.DestroyRing(this);
+        SceneController.Instance.DestroyRing(this);
     }
 
     public IEnumerator SuperBallDestroyRing()
@@ -113,7 +113,12 @@ public class TowerRing : MonoBehaviour
             foreach (var item in bricks)
             {
                 if (item.isSuperBall)
+                {
+                    //SoundController.Instance.PlaySound(SoundController.Instance.collisionSuperBall);
                     StartDestroying();
+
+                }
+
             }
         }
       

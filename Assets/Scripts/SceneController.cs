@@ -1,16 +1,40 @@
 ﻿
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
 
     public static SceneController Instance;
+
     public int currentIndex;
+    public int ringCounter = 1;
+    [SerializeField] private List<GameObject> levelInvironmentPrefabs = new List<GameObject>();
+    private List<TowerRing> rings = new List<TowerRing>();
+    private Tower tower;
+    private Gun gun;
+    private Ammo ammo;
+    private int totalBullets = 1;
+    private GameObject prevLevelModel;
+    private int index;
+    private int lastIndex;
+    private bool isCountNull;
+    bool restarted = false;
+
+    public event UnityAction<int> BullCount;
+
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        ConstructLevel(index);
     }
 
     public void RestartLevel()
@@ -22,26 +46,100 @@ public class SceneController : MonoBehaviour
     {
         StartCoroutine(NextLevel());
     }
-    public IEnumerator Restart()
+
+    private IEnumerator Restart()
     {
+        GameController.Instance.isWin = false;
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (prevLevelModel != null)
+        {
+            Destroy(prevLevelModel);
+            ringCounter -= 1;
+        }
+        ConstructLevel(index);
+    }
+
+    private IEnumerator NextLevel()
+    {
+        GameController.Instance.isWin = false;
+        StopCoroutine(CountBull());
+        yield return new WaitForSeconds(3f);
+        if (prevLevelModel != null)
+            Destroy(prevLevelModel);
+        ConstructRandomLevel();
 
     }
 
-    public IEnumerator NextLevel()
+    public void DestroyRing(TowerRing ring)
     {
-        yield return new WaitForSeconds(3f);
+        rings.Remove(ring);
+    }
 
-        int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextLevelIndex = currentLevelIndex + 1;
-
-        if (nextLevelIndex == SceneManager.sceneCountInBuildSettings)
+    public IEnumerator CountBull()
+    {
+        while (true)
         {
-            nextLevelIndex = 0;
-        }
-        SceneManager.LoadScene(nextLevelIndex);
+            yield return new WaitForSeconds(.1f);
+            totalBullets = tower.count + gun.shootBonus - gun.bullCounter;
 
+            if (!ammo.IsEmptyMainAmmo() && !isCountNull && totalBullets < 0 && rings.Count != 0)
+            {
+                isCountNull = true;
+
+            }
+
+            if (ammo.IsEmptyMainAmmo() || rings.Count == 0)
+            {
+                UIHandler.Instance.HideBulletsPanel();
+                isCountNull = false;
+                //Debug.Log("IsEmptyMainAmmo");
+                //Debug.Log(isCountNull);
+
+            }
+
+            if (totalBullets < 0 && !ammo.IsEmptyMainAmmo() && isCountNull)
+            {
+                restarted = true;
+                UIHandler.Instance.HideBulletsPanel();
+                UIHandler.Instance.ShowlosingPanel();
+
+                RestartLevel();
+
+                //restarted = false;
+            }
+            BullCount?.Invoke(totalBullets);
+        }
+    }
+
+    private void ConstructLevel(int index)
+    {
+        StopAllCoroutines();
+
+        StopCoroutine(Restart());
+        var levelModel = Instantiate(levelInvironmentPrefabs[index]);
+
+        tower = FindObjectOfType<Tower>();
+        gun = FindObjectOfType<Gun>();
+        ammo = FindObjectOfType<Ammo>();
+        tower.Init();
+        gun.Init();
+        UIHandler.Instance.Init();
+        rings = tower.rings;
+        prevLevelModel = levelModel;
+        ringCounter++;
+        StartCoroutine(CountBull());
+
+    }
+
+    private void ConstructRandomLevel()
+    {
+        lastIndex = index;
+        do
+        {
+            index = Random.Range(0, levelInvironmentPrefabs.Count);
+        }
+        while (index == lastIndex);
+        ConstructLevel(index);
     }
 
 }

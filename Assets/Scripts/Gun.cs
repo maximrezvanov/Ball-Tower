@@ -19,15 +19,18 @@ public class Gun : MonoBehaviour
     [SerializeField] float intersectionPoint = 20f;
     private Camera mainCamera;
     private bool isReadyToShoot = true;
-    [HideInInspector] public int shootBonus = 100;
+    public int shootBonus = 100;
 
     private int count = 0;
     private int countV = 0;
     public int bullCounter;
 
+    public void Init()
+    {
+        ammo.Init();
+    }
 
-
-    void Start()
+    void Awake()
     {
         mainCamera = Camera.main;
         while (minRotationAngle < 0)
@@ -44,6 +47,8 @@ public class Gun : MonoBehaviour
         }
         maxAngleX += countV * 360;
     }
+
+
 
     void Update()
     {
@@ -80,6 +85,9 @@ public class Gun : MonoBehaviour
             bullet.SetVelocity(transform.forward * speed);
             shootPs.Play();
             SoundController.Instance.PlaySound(SoundController.Instance.shootSound);
+            if(bullet.CompareTag("superBall"))
+                SoundController.Instance.PlaySound(SoundController.Instance.shootSuperBall);
+
             StartCoroutine(ReadyToShoot());
             bullCounter++;
         }

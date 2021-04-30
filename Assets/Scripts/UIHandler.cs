@@ -16,15 +16,18 @@ public class UIHandler : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    public void Init()
+    {
         lastBullPanel.SetActive(false);
         losingPanel.SetActive(false);
         bulletsPanel.SetActive(true);
-        
-
     }
+
     private void Start()
     {
-        GameController.Instance.BullCount += ShowBullCount;
+        SceneController.Instance.BullCount += ShowBullCount;
     }
 
     
