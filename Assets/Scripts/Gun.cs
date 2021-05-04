@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
     public Transform shootPoint;
     public float speed = 10f;
-    public TrajectoryRenderer Trajectory;
+    //public TrajectoryRenderer Trajectory;
     [SerializeField] private Ammo ammo;
     [SerializeField] float minRotationAngle;
     [SerializeField] float maxRotationAngle;
@@ -78,7 +80,7 @@ public class Gun : MonoBehaviour
         {
             return;
         }
-        if (Input.GetMouseButtonDown(0) && isReadyToShoot)
+        if (Input.GetMouseButtonDown(0) && isReadyToShoot && !EventSystem.current.IsPointerOverGameObject())
         {
             Bullet prefab = ammo.GetBullet();
             var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
@@ -128,7 +130,7 @@ public class Gun : MonoBehaviour
     public IEnumerator ReadyToShoot()
     {
         isReadyToShoot = false;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.5f);
         isReadyToShoot = true;
     }
 

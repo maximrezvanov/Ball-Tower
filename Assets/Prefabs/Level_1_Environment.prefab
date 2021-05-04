@@ -112,8 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootPoint: {fileID: 1154009692810102374}
-  speed: 30
-  Trajectory: {fileID: 0}
+  speed: 32
   ammo: {fileID: 1154009694289516658}
   minRotationAngle: -30
   maxRotationAngle: 30
@@ -121,7 +120,7 @@ MonoBehaviour:
   maxAngleX: 10
   shootPs: {fileID: 6664999014501366926}
   intersectionPoint: 18.5
-  shootBonus: 100
+  shootBonus: 5
   bullCounter: 0
 --- !u!1 &1154009692976686128
 GameObject:
@@ -5440,11 +5439,12 @@ MonoBehaviour:
   - {fileID: 7464160001179912307, guid: e893d136aa8f145df93904938fda4202, type: 3}
   - {fileID: 7464160001179912307, guid: ac30386af80674396b746f16021160f0, type: 3}
   bulletsQueueLength: 25
-  superBallsCount: 8
+  superBallsCount: 3
   bulletsQueue: []
   superBalls: []
   nextBullet: {fileID: 1154009693755298113}
   lastBullets:
+  - {fileID: 7464160001179912307, guid: f1415cacbadff421883d8448b2ffdb75, type: 3}
   - {fileID: 7464160001179912307, guid: f1415cacbadff421883d8448b2ffdb75, type: 3}
   - {fileID: 7464160001179912307, guid: f1415cacbadff421883d8448b2ffdb75, type: 3}
   - {fileID: 7464160001179912307, guid: f1415cacbadff421883d8448b2ffdb75, type: 3}

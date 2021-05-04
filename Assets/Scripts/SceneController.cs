@@ -50,7 +50,7 @@ public class SceneController : MonoBehaviour
     private IEnumerator Restart()
     {
         GameController.Instance.isWin = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         if (prevLevelModel != null)
         {
             Destroy(prevLevelModel);

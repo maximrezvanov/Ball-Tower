@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     public int colorIndex;
     private Renderer rend;
     private Rigidbody rb;
-    [SerializeField] private float lifeTime = 5f;
+    [SerializeField] private float lifeTime = 3.5f;
 
     private void Awake()
     {

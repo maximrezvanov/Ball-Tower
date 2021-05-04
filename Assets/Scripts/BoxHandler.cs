@@ -29,9 +29,8 @@ public class BoxHandler : MonoBehaviour
             SoundController.Instance.PlaySound(SoundController.Instance.openedBox);
             particle.Play();
             GameController.Instance.isWin = true;
-
+            Destroy(collision.gameObject);
         }
-
     }
 
     public IEnumerator CanShoot()
@@ -39,18 +38,15 @@ public class BoxHandler : MonoBehaviour
         bool restarted = false;
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1.5f);
             bullet = FindObjectOfType<Bullet>();
             if (!gun.CanShoot() && bullet == null && !GameController.Instance.isWin && !restarted)
             {
-                UIHandler.Instance.ShowlosingPanel();
                 restarted = true;
                 SceneController.Instance.RestartLevel();
+                //UIHandler.Instance.ShowlosingPanel();
+
             }
-
-
         }
-
     }
-
 }

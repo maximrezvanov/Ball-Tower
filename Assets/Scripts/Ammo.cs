@@ -72,7 +72,7 @@ public class Ammo : MonoBehaviour
         {
             LastShoot();
         }
-        if (bulletsQueue.Count == 2)
+        if (bulletsQueue.Count == 3)
         {
             UIHandler.Instance.ShowLastBullPanel();
         }
@@ -94,7 +94,7 @@ public class Ammo : MonoBehaviour
 
 
         DetectedSuperBall();
-        //Debug.Log(index);
+        Debug.Log("index " + index);
         return bullet;
     }
 
@@ -153,7 +153,7 @@ public class Ammo : MonoBehaviour
             if (superIndexes[i] == index)
             {
                 bulletsQueue[superIndexes[i]].tag = "superBall";
-                bulletsQueue[superIndexes[i]].transform.localScale += new Vector3(1.2f, 1.2f, 1.2f);
+                bulletsQueue[superIndexes[i]].transform.localScale += new Vector3(1.1f, 1.1f, 1.1f);
             }
         }
     }
@@ -201,22 +201,26 @@ public class Ammo : MonoBehaviour
         foreach (var item in bulletToRemove)
         {
             bulletsQueue.RemoveAll((bullet) => { return bullet == item; });
+            index = 0;
         }
-
     }
 
     public IEnumerator ChangeCurrentColor()
     {
-
         while (true)
         {
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             if (!isLastBull)
             {
                 DetectedColor();
                 if (bulletsQueue.Count > 0)
+                {
                     nextBullet.GetComponent<Renderer>().sharedMaterial = bulletsQueue[index + 1].GetComponent<Renderer>().sharedMaterial;
-                else nextBullet.GetComponent<Renderer>().sharedMaterial = lastBullets[0].GetComponent<Renderer>().sharedMaterial;
+                }
+                else
+                {
+                    nextBullet.GetComponent<Renderer>().sharedMaterial = lastBullets[0].GetComponent<Renderer>().sharedMaterial;
+                }
             }
         }
     }
