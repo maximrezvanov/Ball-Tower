@@ -5,19 +5,52 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider fxSlider;
+    public Toggle musicToggle;
+    public Toggle fxToggle;
 
-    void Start()
+    public void ToggleMusic(bool enabled)
     {
-        musicSlider.value = SoundController.musicLevel;
-        fxSlider.value = SoundController.fxLevel;
+        if (enabled)
+        {
+            SoundController.Instance.OnMusic();
+        }
+        else
+        {
+            SoundController.Instance.OffMusic();
+        }
+        PlayerPrefs.SetInt("MusicEnabled", enabled ? 1 : 0);
     }
 
-
-    void Update()
+    public void ToggleFx(bool enabled)
     {
-        SoundController.musicLevel = musicSlider.value;
-        SoundController.fxLevel = fxSlider.value;
+        if (enabled)
+        {
+            SoundController.Instance.OnFx();
+        }
+        else
+        {
+            SoundController.Instance.OffFx();
+        }
+    }
+
+    private void Start()
+    {
+        StartCoroutine(CheckToggleStatus());
+    }
+
+    private IEnumerator CheckToggleStatus()
+    {
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+            if (SoundController.Instance.isMusicOff)
+            {
+                musicToggle.isOn = false;
+            }
+            if (SoundController.Instance.isFxOff)
+            {
+                fxToggle.isOn = false;
+            }
+        }
     }
 }

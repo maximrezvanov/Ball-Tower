@@ -56,7 +56,15 @@ public class Gun : MonoBehaviour
     {
         LaunchProjectile();
     }
-    
+
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        return results.Count > 0;
+    }
 
     void LaunchProjectile()
     {
@@ -80,7 +88,7 @@ public class Gun : MonoBehaviour
         {
             return;
         }
-        if (Input.GetMouseButtonDown(0) && isReadyToShoot && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0) && isReadyToShoot && !IsPointerOverUIObject() && Time.timeScale != 0)
         {
             Bullet prefab = ammo.GetBullet();
             var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);

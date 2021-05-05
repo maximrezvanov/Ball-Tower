@@ -12,6 +12,12 @@ public class UIHandler : MonoBehaviour
     public GameObject bulletsPanel;
     public GameObject pauseMenu;
     public GameObject pauseButton;
+    public GameObject musicOffPanel;
+    public GameObject musicOnPanel;
+    public GameObject soundOffPanel;
+    public GameObject soundOnPanel;
+    
+
     private float showTime = 2.5f;
     [SerializeField] private Text counterText;
 
@@ -30,9 +36,11 @@ public class UIHandler : MonoBehaviour
     private void Start()
     {
         SceneController.Instance.BullCount += ShowBullCount;
+        StartCoroutine(GetMusicIcon());
+        StartCoroutine(GetSoundIcon());
     }
 
-    
+
     public void ShowLastBullPanel()
     {
         lastBullPanel.SetActive(true);
@@ -81,13 +89,60 @@ public class UIHandler : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void OnSound()
+    public void OnMusic()
     {
-        SoundController.Instance.OnSounds();
+        SoundController.Instance.OnMusic();
     }
 
-    public void OffSound()
+    public void OnFx()
     {
-        SoundController.Instance.OffSounds();
+        SoundController.Instance.OnFx();
+    }
+
+    public void OffMusic()
+    {
+        SoundController.Instance.OffMusic();
+
+    }
+
+    public void OffFx()
+    {
+        SoundController.Instance.OffFx();
+
+    }
+
+    private IEnumerator GetMusicIcon()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (SoundController.Instance.isMusicOff)
+            {
+                musicOffPanel.gameObject.SetActive(false);
+            }
+            else 
+            {
+                musicOffPanel.gameObject.SetActive(true);
+
+            }
+        } 
+    }
+
+    private IEnumerator GetSoundIcon()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+           
+            if (SoundController.Instance.isFxOff)
+            {
+                soundOffPanel.gameObject.SetActive(false);
+            }
+            else
+            {
+                soundOffPanel.gameObject.SetActive(true);
+
+            }
+        }
     }
 }

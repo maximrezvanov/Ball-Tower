@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -12,9 +13,11 @@ public class SoundController : MonoBehaviour
     public AudioClip collisionSound;
     public AudioClip shootSuperBall;
     public AudioClip clickSound;
-
     public static float musicLevel = 0.25f;
     public static float fxLevel = 1.0f;
+    public bool isFxOff;
+    public bool isMusicOff;
+
     [SerializeField] private AudioMixerGroup mixer;
 
 
@@ -25,6 +28,7 @@ public class SoundController : MonoBehaviour
             return instance;
         }
     }
+
     private static SoundController instance = null;
 
     private void Awake()
@@ -44,9 +48,8 @@ public class SoundController : MonoBehaviour
     private void Start()
     {
         audio = GetComponent<AudioSource>();
-        mixer.audioMixer.SetFloat("Music", musicLevel);
-
     }
+
     public void PlaySound(AudioClip clip)
     {
         audio.clip = clip;
@@ -55,18 +58,41 @@ public class SoundController : MonoBehaviour
 
     private void Update()
     {
-       mixer.audioMixer.SetFloat("Music", musicLevel);
-       mixer.audioMixer.SetFloat("Effects", fxLevel);
+        mixer.audioMixer.SetFloat("Music", musicLevel);
+        mixer.audioMixer.SetFloat("Effects", fxLevel);
+
+        if (fxLevel  == - 80f)
+        {
+            isFxOff = true;
+        }
+         
+        if (musicLevel == -80f)
+        {
+            isMusicOff = true;
+        }
     }
 
-    public void OffSounds()
+    public void OffMusic()
     {
-        mixer.audioMixer.SetFloat("Sound", -80f);
+        musicLevel = -80f;
+        isMusicOff = true;
     }
 
-    public void OnSounds()
+    public void OffFx()
     {
-        mixer.audioMixer.SetFloat("Sound", 0f);
+        fxLevel = -80f;
+        isFxOff = true;
+    }
 
+    public void OnMusic()
+    {
+        musicLevel = 0f;
+        isMusicOff = false;
+    }
+
+    public void OnFx()
+    {
+        fxLevel = 0f;
+        isFxOff = false;
     }
 }

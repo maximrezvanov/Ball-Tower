@@ -10,7 +10,6 @@ public class MenuController : MonoBehaviour
         GameObject settingsMenu = GameObject.Find("SettingsMenuPanel");
     }
 
-
     public void StartGame()
     {
         SceneManager.LoadScene(1);
