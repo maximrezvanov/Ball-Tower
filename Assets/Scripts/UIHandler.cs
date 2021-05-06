@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,17 +10,20 @@ public class UIHandler : MonoBehaviour
     public static UIHandler Instance;
     public GameObject lastBullPanel;
     public GameObject losingPanel;
-    public GameObject bulletsPanel;
+    public GameObject cannonBallsPanel;
+    public GameObject coinPanel;
     public GameObject pauseMenu;
     public GameObject pauseButton;
     public GameObject musicOffPanel;
     public GameObject musicOnPanel;
     public GameObject soundOffPanel;
     public GameObject soundOnPanel;
-    
-
     private float showTime = 2.5f;
+    private static int totalCoins;
+
     [SerializeField] private Text counterText;
+    [SerializeField] private Text coinText;
+
 
     private void Awake()
     {
@@ -30,16 +34,16 @@ public class UIHandler : MonoBehaviour
     {
         lastBullPanel.SetActive(false);
         losingPanel.SetActive(false);
-        bulletsPanel.SetActive(true);
+        cannonBallsPanel.SetActive(true);
     }
 
     private void Start()
     {
         SceneController.Instance.BullCount += ShowBullCount;
+        BoxHandler.CoinCount += CoinCounterHandler;
         StartCoroutine(GetMusicIcon());
         StartCoroutine(GetSoundIcon());
     }
-
 
     public void ShowLastBullPanel()
     {
@@ -52,21 +56,27 @@ public class UIHandler : MonoBehaviour
         lastBullPanel.SetActive(false);
         losingPanel.SetActive(true);
     }
+
     public void HideBulletsPanel()
-    { 
-       bulletsPanel.SetActive(false);
+    {
+        cannonBallsPanel.SetActive(false);
     }
 
     public IEnumerator HidePanel(GameObject panel)
     {
         yield return new WaitForSeconds(showTime);
-       panel.SetActive(false);
-
+        panel.SetActive(false);
     }
 
     public void ShowBullCount(int number)
     {
-        counterText.text = "Bullets: " + number.ToString();
+        counterText.text = number.ToString();
+    }
+
+    private void CoinCounterHandler(int number)
+    {
+        totalCoins += number;
+        coinText.text = totalCoins.ToString();
     }
 
     public void ShowPauseMenu()
@@ -120,12 +130,11 @@ public class UIHandler : MonoBehaviour
             {
                 musicOffPanel.gameObject.SetActive(false);
             }
-            else 
+            else
             {
                 musicOffPanel.gameObject.SetActive(true);
-
             }
-        } 
+        }
     }
 
     private IEnumerator GetSoundIcon()
@@ -133,7 +142,7 @@ public class UIHandler : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.1f);
-           
+
             if (SoundController.Instance.isFxOff)
             {
                 soundOffPanel.gameObject.SetActive(false);

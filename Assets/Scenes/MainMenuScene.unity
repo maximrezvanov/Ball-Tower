@@ -3393,6 +3393,7 @@ MonoBehaviour:
   collisionSound: {fileID: 8300000, guid: 7e71f78d17e5d5c41badfc8435d71021, type: 3}
   shootSuperBall: {fileID: 8300000, guid: 06ada5590eba8d6489b36c6f3c54ff78, type: 3}
   clickSound: {fileID: 8300000, guid: e57bcf815b18547a7a8b44a99e4d9c99, type: 3}
+  coinSound: {fileID: 8300000, guid: d758c2f75b6e24bf1aedea47cea2403b, type: 3}
   isFxOff: 0
   isMusicOff: 0
   mixer: {fileID: 24300002, guid: 611a85879972c4b7bae6d09780369c7a, type: 2}

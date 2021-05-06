@@ -17,6 +17,7 @@ public class SceneController : MonoBehaviour
     private Tower tower;
     private Gun gun;
     private Ammo ammo;
+    private BoxHandler box;
     private int totalBullets = 1;
     private GameObject prevLevelModel;
     private int index;
@@ -104,8 +105,6 @@ public class SceneController : MonoBehaviour
                 UIHandler.Instance.ShowlosingPanel();
 
                 RestartLevel();
-
-                //restarted = false;
             }
             BullCount?.Invoke(totalBullets);
         }
@@ -121,12 +120,14 @@ public class SceneController : MonoBehaviour
         tower = FindObjectOfType<Tower>();
         gun = FindObjectOfType<Gun>();
         ammo = FindObjectOfType<Ammo>();
+        box = FindObjectOfType<BoxHandler>();
         tower.Init();
         gun.Init();
+        ringCounter++;
+        box.Init();
         UIHandler.Instance.Init();
         rings = tower.rings;
         prevLevelModel = levelModel;
-        ringCounter++;
         StartCoroutine(CountBull());
 
     }

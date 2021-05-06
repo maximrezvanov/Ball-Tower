@@ -8,25 +8,16 @@ public class GameController : MonoBehaviour
 {
     public List<Material> mats;
     public static GameController Instance;
-   
+    private BoxHandler box;
     public bool isWin = false;
     public bool isShowUI = true;
-    
     [HideInInspector] public bool isSuperBallCollision = false;
-
 
     private void Awake()
     {
         Instance = this;
 
     }
-
-    //private void Start()
-    //{
-
-    //    //StartCoroutine(CountBull());
-    //}
-
 
     private void Update()
     {
@@ -43,11 +34,4 @@ public class GameController : MonoBehaviour
         if (isWin)
             SceneController.Instance.LoadLevel();
     }
-
-
-
-
-
-
-
 }

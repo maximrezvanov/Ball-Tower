@@ -24,8 +24,6 @@ public class Ammo : MonoBehaviour
     private int superBallIndex;
     int index = 0;
     private List<int> superIndexes = new List<int>();
-    public Action FiredSuperBall;
-
 
     public bool IsEmpty()
     {

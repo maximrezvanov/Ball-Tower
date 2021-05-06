@@ -13,6 +13,7 @@ public class SoundController : MonoBehaviour
     public AudioClip collisionSound;
     public AudioClip shootSuperBall;
     public AudioClip clickSound;
+    public AudioClip coinSound;
     public static float musicLevel = 0.25f;
     public static float fxLevel = 1.0f;
     public bool isFxOff;
