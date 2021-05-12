@@ -15,6 +15,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] private List<GameObject> levelInvironmentPrefabs = new List<GameObject>();
     private List<TowerRing> rings = new List<TowerRing>();
     private Tower tower;
+    private TowerRotator towerRotator;
     private Gun gun;
     private Ammo ammo;
     private BoxHandler box;
@@ -118,10 +119,12 @@ public class SceneController : MonoBehaviour
         var levelModel = Instantiate(levelInvironmentPrefabs[index]);
 
         tower = FindObjectOfType<Tower>();
+        towerRotator = FindObjectOfType<TowerRotator>();
         gun = FindObjectOfType<Gun>();
         ammo = FindObjectOfType<Ammo>();
         box = FindObjectOfType<BoxHandler>();
         tower.Init();
+        towerRotator.Init();
         gun.Init();
         ringCounter++;
         box.Init();
@@ -142,5 +145,7 @@ public class SceneController : MonoBehaviour
         while (index == lastIndex);
         ConstructLevel(index);
     }
+
+    
 
 }

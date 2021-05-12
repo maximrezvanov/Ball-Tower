@@ -151,7 +151,7 @@ public class Ammo : MonoBehaviour
             if (superIndexes[i] == index)
             {
                 bulletsQueue[superIndexes[i]].tag = "superBall";
-                bulletsQueue[superIndexes[i]].transform.localScale += new Vector3(1.1f, 1.1f, 1.1f);
+                bulletsQueue[superIndexes[i]].transform.localScale += new Vector3(1.05f, 1.05f, 1.05f);
             }
         }
     }

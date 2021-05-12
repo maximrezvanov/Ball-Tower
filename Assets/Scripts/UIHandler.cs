@@ -18,16 +18,21 @@ public class UIHandler : MonoBehaviour
     public GameObject musicOnPanel;
     public GameObject soundOffPanel;
     public GameObject soundOnPanel;
+    public ScrollRect scroll;
+    public bool isPause;
     private float showTime = 2.5f;
-    private static int totalCoins;
-
+    [HideInInspector]public static int totalCoins;
+    public Animator settingsPanel;
+    public Animator shopPanel;
     [SerializeField] private Text counterText;
     [SerializeField] private Text coinText;
-
+    private ShopPanel shop;
 
     private void Awake()
     {
         Instance = this;
+        shop = FindObjectOfType<ShopPanel>();
+
     }
 
     public void Init()
@@ -35,14 +40,24 @@ public class UIHandler : MonoBehaviour
         lastBullPanel.SetActive(false);
         losingPanel.SetActive(false);
         cannonBallsPanel.SetActive(true);
+
     }
 
     private void Start()
     {
         SceneController.Instance.BullCount += ShowBullCount;
         BoxHandler.CoinCount += CoinCounterHandler;
+        ShopPanel.SubtractCannonCost += CoinCounterAfterCannonBought;
+
         StartCoroutine(GetMusicIcon());
         StartCoroutine(GetSoundIcon());
+        scroll.normalizedPosition = new Vector2(scroll.normalizedPosition.y, 1);
+
+    }
+
+    private void Update()
+    {
+        
     }
 
     public void ShowLastBullPanel()
@@ -77,26 +92,41 @@ public class UIHandler : MonoBehaviour
     {
         totalCoins += number;
         coinText.text = totalCoins.ToString();
+
+    }
+
+    private void CoinCounterAfterCannonBought(int number)
+    {
+        totalCoins -= number;
+        coinText.text = totalCoins.ToString();
     }
 
     public void ShowPauseMenu()
     {
-        pauseMenu.SetActive(true);
-        pauseButton.SetActive(false);
-        Time.timeScale = 0;
+        settingsPanel.SetBool("isHidden", false);
+        isPause = true;
     }
+
     public void HidePauseMenuAndPlay()
     {
-        pauseMenu.SetActive(false);
-        pauseButton.SetActive(true);
-        Time.timeScale = 1;
+        settingsPanel.SetBool("isHidden", true);
+        isPause = false;
+    }
+
+    public void ShowShopPanel()
+    {
+        shopPanel.SetBool("isShopPanelHidden", false);
+    }
+
+    public void HideShopPanel()
+    {
+        shopPanel.SetBool("isShopPanelHidden", true);
     }
 
     public void GoToMainMenu()
     {
         pauseMenu.SetActive(false);
         SceneManager.LoadScene(0);
-        Time.timeScale = 1;
     }
 
     public void OnMusic()
@@ -112,14 +142,14 @@ public class UIHandler : MonoBehaviour
     public void OffMusic()
     {
         SoundController.Instance.OffMusic();
-
     }
 
     public void OffFx()
     {
         SoundController.Instance.OffFx();
-
     }
+
+  
 
     private IEnumerator GetMusicIcon()
     {
@@ -154,4 +184,7 @@ public class UIHandler : MonoBehaviour
             }
         }
     }
+
+   
+
 }

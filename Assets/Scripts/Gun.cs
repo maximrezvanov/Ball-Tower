@@ -11,8 +11,7 @@ public class Gun : MonoBehaviour
 {
     public Transform shootPoint;
     public float speed = 10f;
-    //public TrajectoryRenderer Trajectory;
-    [SerializeField] private Ammo ammo;
+    private Ammo ammo;
     [SerializeField] float minRotationAngle;
     [SerializeField] float maxRotationAngle;
     [SerializeField] float minAngleX;
@@ -34,6 +33,7 @@ public class Gun : MonoBehaviour
 
     void Awake()
     {
+        ammo = FindObjectOfType<Ammo>();
         mainCamera = Camera.main;
         while (minRotationAngle < 0)
         {
@@ -49,8 +49,6 @@ public class Gun : MonoBehaviour
         }
         maxAngleX += countV * 360;
     }
-
-
 
     void Update()
     {
@@ -68,38 +66,41 @@ public class Gun : MonoBehaviour
 
     void LaunchProjectile()
     {
-        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.nearClipPlane));
-        Vector3 point = mainCamera.transform.position + (mousePosition - mainCamera.transform.position).normalized * intersectionPoint;
-        Vector3 direction = (point - transform.position).normalized;
-        var look = Quaternion.LookRotation(direction);
-        float gunAngle = look.eulerAngles.y;
-        float gunAngleX = look.eulerAngles.x;
+        if (!UIHandler.Instance.isPause)
+        {
+            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.nearClipPlane));
+            Vector3 point = mainCamera.transform.position + (mousePosition - mainCamera.transform.position).normalized * intersectionPoint;
+            Vector3 direction = (point - transform.position).normalized;
+            var look = Quaternion.LookRotation(direction);
+            float gunAngle = look.eulerAngles.y;
+            float gunAngleX = look.eulerAngles.x;
 
-        if (IsBetween(minRotationAngle, maxRotationAngle, gunAngle))
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, gunAngle, transform.rotation.eulerAngles.z);
-        }
+            if (IsBetween(minRotationAngle, maxRotationAngle, gunAngle))
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, gunAngle, transform.rotation.eulerAngles.z);
+            }
 
-        if (IsBetween(minAngleX, maxAngleX, gunAngleX))
-        {
-            transform.rotation = Quaternion.Euler(gunAngleX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        }
-        if (!CanShoot())
-        {
-            return;
-        }
-        if (Input.GetMouseButtonDown(0) && isReadyToShoot && !IsPointerOverUIObject() && Time.timeScale != 0)
-        {
-            Bullet prefab = ammo.GetBullet();
-            var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
-            bullet.SetVelocity(transform.forward * speed);
-            shootPs.Play();
-            SoundController.Instance.PlaySound(SoundController.Instance.shootSound);
-            if(bullet.CompareTag("superBall"))
-                SoundController.Instance.PlaySound(SoundController.Instance.shootSuperBall);
+            if (IsBetween(minAngleX, maxAngleX, gunAngleX))
+            {
+                transform.rotation = Quaternion.Euler(gunAngleX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            }
+            if (!CanShoot())
+            {
+                return;
+            }
+            if (Input.GetMouseButtonDown(0) && isReadyToShoot && !IsPointerOverUIObject())
+            {
+                Bullet prefab = ammo.GetBullet();
+                var bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
+                bullet.SetVelocity(transform.forward * speed);
+                shootPs.Play();
+                SoundController.Instance.PlaySound(SoundController.Instance.shootSound);
+                if (bullet.CompareTag("superBall"))
+                    SoundController.Instance.PlaySound(SoundController.Instance.shootSuperBall);
 
-            StartCoroutine(ReadyToShoot());
-            bullCounter++;
+                StartCoroutine(ReadyToShoot());
+                bullCounter++;
+            }
         }
     }
 

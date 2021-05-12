@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class TowerRotator : MonoBehaviour
 {
-    [SerializeField] private float speedRotation = 1;
+    [SerializeField] private float speedRotation = 30;
 
     void Start()
     {
-        
+        Init();
     }
 
-    // Update is called once per frame
+    public void Init()
+    {
+        speedRotation += SceneController.Instance.ringCounter;
+    }
+
     void Update()
     {
+        if(!UIHandler.Instance.isPause)
         transform.Rotate(0, speedRotation * Time.deltaTime, 0);
     }
 }
