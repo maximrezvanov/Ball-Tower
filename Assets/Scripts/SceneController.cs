@@ -25,8 +25,12 @@ public class SceneController : MonoBehaviour
     private int lastIndex;
     private bool isCountNull;
     bool restarted = false;
+    private float timer;
+    private int timeForOneRing = 30;
 
     public event UnityAction<int> BullCount;
+    public event UnityAction<int> RoundTimer;
+
 
 
     private void Awake()
@@ -132,7 +136,21 @@ public class SceneController : MonoBehaviour
         rings = tower.rings;
         prevLevelModel = levelModel;
         StartCoroutine(CountBull());
+        timer = (timeForOneRing - (timeForOneRing * ringCounter * 2 / timeForOneRing)) * ringCounter;
 
+    }
+
+    private void Update()
+    {
+        if(timer > 0)
+        {
+            timer -= Time.deltaTime;
+            RoundTimer?.Invoke((int)timer);
+        }
+        else
+        {
+            RestartLevel();
+        }
     }
 
     private void ConstructRandomLevel()

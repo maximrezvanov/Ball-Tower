@@ -126,6 +126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorIndex: 0
   lifeTime: 5
+  fireBall: {fileID: 0}
+  isSuperBall: 0
 --- !u!96 &-6481247689478707706
 TrailRenderer:
   serializedVersion: 2

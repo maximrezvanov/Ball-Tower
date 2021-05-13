@@ -87,9 +87,8 @@ public class Ammo : MonoBehaviour
         }
 
         bullet.tag = "bullet";
-        if(bullet.tag == "bullet")
-            bullet.transform.localScale = new Vector3(1f, 1f, 1f);
-
+        if (bullet.tag == "bullet")
+            bulletsQueue[index].isSuperBall = false;
 
         DetectedSuperBall();
         Debug.Log("index " + index);
@@ -148,10 +147,11 @@ public class Ammo : MonoBehaviour
     {
         for (int i = 0; i < superIndexes.Count; i++)
         {
+            
             if (superIndexes[i] == index)
             {
                 bulletsQueue[superIndexes[i]].tag = "superBall";
-                bulletsQueue[superIndexes[i]].transform.localScale += new Vector3(1.05f, 1.05f, 1.05f);
+                bulletsQueue[superIndexes[i]].isSuperBall = true;
             }
         }
     }

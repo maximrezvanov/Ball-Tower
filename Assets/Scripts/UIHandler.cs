@@ -24,15 +24,15 @@ public class UIHandler : MonoBehaviour
     [HideInInspector]public static int totalCoins;
     public Animator settingsPanel;
     public Animator shopPanel;
+    public Animator timerAnimator;
     [SerializeField] private Text counterText;
     [SerializeField] private Text coinText;
-    private ShopPanel shop;
+    [SerializeField] private Text timerText;
+    [SerializeField] private Text timeIsOverText;
 
     private void Awake()
     {
         Instance = this;
-        shop = FindObjectOfType<ShopPanel>();
-
     }
 
     public void Init()
@@ -40,12 +40,13 @@ public class UIHandler : MonoBehaviour
         lastBullPanel.SetActive(false);
         losingPanel.SetActive(false);
         cannonBallsPanel.SetActive(true);
-
+        timeIsOverText.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         SceneController.Instance.BullCount += ShowBullCount;
+        SceneController.Instance.RoundTimer += UpdateTimer;
         BoxHandler.CoinCount += CoinCounterHandler;
         ShopPanel.SubtractCannonCost += CoinCounterAfterCannonBought;
 
@@ -57,7 +58,7 @@ public class UIHandler : MonoBehaviour
 
     private void Update()
     {
-        
+        SetTimer();
     }
 
     public void ShowLastBullPanel()
@@ -99,6 +100,11 @@ public class UIHandler : MonoBehaviour
     {
         totalCoins -= number;
         coinText.text = totalCoins.ToString();
+    }
+
+    private void UpdateTimer(int timer)
+    {
+        timerText.text = timer.ToString();
     }
 
     public void ShowPauseMenu()
@@ -149,7 +155,19 @@ public class UIHandler : MonoBehaviour
         SoundController.Instance.OffFx();
     }
 
-  
+    private void SetTimer()
+    {
+        if (int.Parse(timerText.text) < 10)
+        {
+            timerText.color = Color.red;
+            timerAnimator.SetBool("isTimeOver", true);
+        }
+
+        if (int.Parse(timerText.text) < 1)
+        {
+            timeIsOverText.gameObject.SetActive(true);
+        }
+    }
 
     private IEnumerator GetMusicIcon()
     {
