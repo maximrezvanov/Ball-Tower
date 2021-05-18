@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SelectCannon : MonoBehaviour
 {
     [SerializeField] private List<GameObject> cannonPrefabs = new List<GameObject>();
+    private static int cannonInd;
 
     public static SelectCannon Instance;
 
@@ -14,7 +16,15 @@ public class SelectCannon : MonoBehaviour
 
     }
 
-  
+    private void Start()
+    {
+        Init();
+    }
+
+    public void Init()
+    {
+        cannonPrefabs[cannonInd].SetActive(true);
+    }
 
     public void SelCannon(int index)
     {
@@ -24,5 +34,6 @@ public class SelectCannon : MonoBehaviour
         }
 
         cannonPrefabs[index].SetActive(true);
+        cannonInd = index;
     }
 }

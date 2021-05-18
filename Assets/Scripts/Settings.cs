@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    public Toggle musicToggle;
-    public Toggle fxToggle;
+
+
 
     public void ToggleMusic(bool enabled)
     {
@@ -30,27 +30,6 @@ public class Settings : MonoBehaviour
         else
         {
             SoundController.Instance.OffFx();
-        }
-    }
-
-    private void Start()
-    {
-        StartCoroutine(CheckToggleStatus());
-    }
-
-    private IEnumerator CheckToggleStatus()
-    {
-        while (true)
-        {
-            yield return new WaitForEndOfFrame();
-            if (SoundController.Instance.isMusicOff)
-            {
-                musicToggle.isOn = false;
-            }
-            if (SoundController.Instance.isFxOff)
-            {
-                fxToggle.isOn = false;
-            }
         }
     }
 }

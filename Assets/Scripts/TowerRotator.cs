@@ -13,7 +13,7 @@ public class TowerRotator : MonoBehaviour
 
     public void Init()
     {
-        speedRotation += SceneController.Instance.ringCounter;
+        speedRotation += SceneController.Instance.ringCounter + 1;
     }
 
     void Update()

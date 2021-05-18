@@ -13,21 +13,22 @@ public class SceneController : MonoBehaviour
     public int currentIndex;
     public int ringCounter = 1;
     [SerializeField] private List<GameObject> levelInvironmentPrefabs = new List<GameObject>();
-    private List<TowerRing> rings = new List<TowerRing>();
+    [HideInInspector] public List<TowerRing> rings = new List<TowerRing>();
     private Tower tower;
     private TowerRotator towerRotator;
     private Gun gun;
     private Ammo ammo;
     private BoxHandler box;
-    private int totalBullets = 1;
+    private CannonBallCountText cannonBallText;
+    [HideInInspector] public int totalBullets = 1;
     private GameObject prevLevelModel;
     private int index;
     private int lastIndex;
     private bool isCountNull;
     bool restarted = false;
-    private float timer;
+    [HideInInspector] public float timer;
     private int timeForOneRing = 30;
-
+    [HideInInspector] public float startTime;
     public event UnityAction<int> BullCount;
     public event UnityAction<int> RoundTimer;
 
@@ -96,7 +97,6 @@ public class SceneController : MonoBehaviour
 
             if (ammo.IsEmptyMainAmmo() || rings.Count == 0)
             {
-                UIHandler.Instance.HideBulletsPanel();
                 isCountNull = false;
                 //Debug.Log("IsEmptyMainAmmo");
                 //Debug.Log(isCountNull);
@@ -106,7 +106,6 @@ public class SceneController : MonoBehaviour
             if (totalBullets < 0 && !ammo.IsEmptyMainAmmo() && isCountNull)
             {
                 restarted = true;
-                UIHandler.Instance.HideBulletsPanel();
                 UIHandler.Instance.ShowlosingPanel();
 
                 RestartLevel();
@@ -127,28 +126,38 @@ public class SceneController : MonoBehaviour
         gun = FindObjectOfType<Gun>();
         ammo = FindObjectOfType<Ammo>();
         box = FindObjectOfType<BoxHandler>();
+        cannonBallText = FindObjectOfType<CannonBallCountText>();
         tower.Init();
         towerRotator.Init();
         gun.Init();
         ringCounter++;
         box.Init();
-        UIHandler.Instance.Init();
+        cannonBallText.Init();
         rings = tower.rings;
         prevLevelModel = levelModel;
         StartCoroutine(CountBull());
         timer = (timeForOneRing - (timeForOneRing * ringCounter * 2 / timeForOneRing)) * ringCounter;
+        startTime = timer;
+        UIHandler.Instance.Init();
 
     }
 
     private void Update()
     {
-        if(timer > 0)
+        TimerHandler();
+        Debug.Log(timer);
+    }
+
+    private void TimerHandler()
+    {
+        if (timer > 0 && !UIHandler.Instance.isPause && rings.Count != 0)
         {
             timer -= Time.deltaTime;
             RoundTimer?.Invoke((int)timer);
         }
-        else
+        else if (timer <= 0 && !UIHandler.Instance.isPause)
         {
+            timer = 0;
             RestartLevel();
         }
     }

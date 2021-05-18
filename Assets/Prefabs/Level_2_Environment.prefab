@@ -5273,6 +5273,7 @@ MonoBehaviour:
   maxAngleX: 10
   shootPs: {fileID: 3234113961604725531}
   intersectionPoint: 18.5
+  counterText: {fileID: 0}
   shootBonus: 7
   bullCounter: 0
 --- !u!1 &6961695837159545298
@@ -5999,11 +6000,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8740923881929304544}
     m_Modifications:
-    - target: {fileID: 1620712564063519019, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4460292081987204099, guid: 7f7576d28a1cd45f698b17348e536481,
         type: 3}
       propertyPath: m_RootOrder
@@ -6063,21 +6059,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AllCannon
-      objectReference: {fileID: 0}
-    - target: {fileID: 5070671344902246028, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5493501870200926587, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8474366816230221615, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f7576d28a1cd45f698b17348e536481, type: 3}

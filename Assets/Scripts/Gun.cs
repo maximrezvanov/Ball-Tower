@@ -12,6 +12,7 @@ public class Gun : MonoBehaviour
     public Transform shootPoint;
     public float speed = 10f;
     private Ammo ammo;
+    private SelectCannon cannonModel;
     [SerializeField] float minRotationAngle;
     [SerializeField] float maxRotationAngle;
     [SerializeField] float minAngleX;
@@ -29,11 +30,13 @@ public class Gun : MonoBehaviour
     public void Init()
     {
         ammo.Init();
+        //cannonModel.Init();
     }
 
     void Awake()
     {
         ammo = FindObjectOfType<Ammo>();
+        cannonModel = FindObjectOfType<SelectCannon>();
         mainCamera = Camera.main;
         while (minRotationAngle < 0)
         {

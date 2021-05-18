@@ -7462,34 +7462,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: AllCannon
       objectReference: {fileID: 0}
-    - target: {fileID: 5493501870200926587, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5817504314534502221, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: cannonPrefabs.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5817504314534502221, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: cannonPrefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 3366281105451445189}
-    - target: {fileID: 8474366816230221615, guid: 7f7576d28a1cd45f698b17348e536481,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f7576d28a1cd45f698b17348e536481, type: 3}
---- !u!1 &3366281105451445189 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7537077421547997331, guid: 7f7576d28a1cd45f698b17348e536481,
-    type: 3}
-  m_PrefabInstance: {fileID: 5057117075948348246}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8919477105476179797 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4460292081987204099, guid: 7f7576d28a1cd45f698b17348e536481,

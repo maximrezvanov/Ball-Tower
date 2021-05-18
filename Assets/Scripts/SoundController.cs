@@ -79,16 +79,16 @@ public class SoundController : MonoBehaviour
         isMusicOff = true;
     }
 
-    public void OffFx()
-    {
-        fxLevel = -80f;
-        isFxOff = true;
-    }
-
     public void OnMusic()
     {
         musicLevel = 0f;
         isMusicOff = false;
+    }
+
+    public void OffFx()
+    {
+        fxLevel = -80f;
+        isFxOff = true;
     }
 
     public void OnFx()
