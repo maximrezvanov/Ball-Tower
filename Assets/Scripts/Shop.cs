@@ -11,6 +11,7 @@ public class Shop : MonoBehaviour
     public static event UnityAction<int> CannonCost;
     public static event UnityAction<int> CannonIndex;
     public static Shop Instance;
+   
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class Shop : MonoBehaviour
     private void Update()
     {
         coinCount.text = PlayerPrefs.GetInt("CoinCount").ToString();
+
     }
 
     public void SelectCannonModel(int index)
