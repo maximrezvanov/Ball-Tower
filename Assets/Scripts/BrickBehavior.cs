@@ -10,6 +10,7 @@ public class BrickBehavior : MonoBehaviour
     private Color basicColor = new Color(0.5538003f, 0.79887f, 0.8962264f);
     public bool test = false;
     public bool isSuperBall;
+    public static int scoreCounter;
 
     public int ColorIndex => colorIndex;
 
@@ -46,6 +47,7 @@ public class BrickBehavior : MonoBehaviour
             rend.material.color = basicColor;
             IsMatch = true;
             test = true;
+            scoreCounter++;
         }
 
         if (collision.gameObject.GetComponent<Renderer>().material.color == rend.material.color
@@ -54,7 +56,13 @@ public class BrickBehavior : MonoBehaviour
             isSuperBall = true;
             Destroy(collision.gameObject);
             Debug.Log("br SuperBall coll");
+            scoreCounter += 10;
         }
+    }
+
+    public void ResetScore()
+    {
+        scoreCounter = 0;
     }
 
     public List<BrickBehavior> InitBrick(int brickCount)

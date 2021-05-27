@@ -17,22 +17,24 @@ public class UIHandler : MonoBehaviour
     public GameObject musicOnPanel;
     public GameObject soundOffPanel;
     public GameObject soundOnPanel;
-    public ScrollRect scroll;
+    //public ScrollRect scroll;
     public bool isPause;
     private float showTime = 2.5f;
-    [HideInInspector]public static int totalCoins;
+    [HideInInspector] public static int totalCoins;
     public Animator settingsPanel;
-    public Animator shopPanel;
     public Animator timerAnimator;
     [SerializeField] private Text coinText;
     [SerializeField] private Text timerText;
     [SerializeField] private Text timeIsOverText;
+    [SerializeField] private Text scoreText;
     [SerializeField] private Slider timeSlider;
-    private int timeToOver;
+    private BrickBehavior brick;
+    ShopPanelHandler shopPanel;
 
     private void Awake()
     {
         Instance = this;
+        shopPanel = FindObjectOfType<ShopPanelHandler>();
     }
 
     public void Init()
@@ -43,7 +45,11 @@ public class UIHandler : MonoBehaviour
         timerText.color = Color.white;
         timerAnimator.SetBool("isTimeOver", false);
         timeSlider.maxValue = SceneController.Instance.startTime;
-
+        if (PlayerPrefs.HasKey("CoinCount"))
+        {
+            totalCoins = PlayerPrefs.GetInt("CoinCount");
+        }
+        coinText.text = totalCoins.ToString();
     }
 
     private void Start()
@@ -51,15 +57,29 @@ public class UIHandler : MonoBehaviour
         SceneController.Instance.RoundTimer += UpdateTimer;
         BoxHandler.CoinCount += CoinCounterHandler;
         ShopPanel.SubtractCannonCost += CoinCounterAfterCannonBought;
-
+        brick = FindObjectOfType<BrickBehavior>();
         StartCoroutine(GetMusicIcon());
         StartCoroutine(GetSoundIcon());
-        scroll.normalizedPosition = new Vector2(scroll.normalizedPosition.y, 1);
+        //scroll.normalizedPosition = new Vector2(scroll.normalizedPosition.y, 1);
         timerAnimator.SetBool("isTimeOver", false);
         timeSlider.maxValue = SceneController.Instance.startTime;
     }
 
     private void Update()
+    {
+        TimerHandler();
+        ScoreHandler();
+        if (totalCoins < 0) totalCoins = 0;
+        PlayerPrefs.SetInt("CoinCount", totalCoins);
+
+    }
+
+    private void ScoreHandler()
+    {
+        scoreText.text = BrickBehavior.scoreCounter.ToString();
+    }
+
+    private void TimerHandler()
     {
         timeSlider.value = SceneController.Instance.timer;
         if (timeSlider.value <= 0)
@@ -101,6 +121,7 @@ public class UIHandler : MonoBehaviour
     {
         totalCoins -= number;
         coinText.text = totalCoins.ToString();
+        PlayerPrefs.Save();
     }
 
     private void UpdateTimer(int timer)
@@ -123,12 +144,12 @@ public class UIHandler : MonoBehaviour
 
     public void ShowShopPanel()
     {
-        shopPanel.SetBool("isShopPanelHidden", false);
+        shopPanel.ShowShopPanel();
     }
 
     public void HideShopPanel()
     {
-        shopPanel.SetBool("isShopPanelHidden", true);
+        shopPanel.HideShopPanel();
     }
 
     public void GoToMainMenu()

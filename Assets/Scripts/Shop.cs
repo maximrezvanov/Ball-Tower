@@ -2,37 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
-    private ShopPanel shopPanel;
-    private bool isCannonBought;
+    public Text coinCount;
 
-    public event UnityAction<int> CannonCost;
-    public event UnityAction<int> CannonIndex;
-
+    public static event UnityAction<int> CannonCost;
+    public static event UnityAction<int> CannonIndex;
     public static Shop Instance;
 
     private void Awake()
     {
         Instance = this;
-    }
+        coinCount.text = UIHandler.totalCoins.ToString();
 
-    private void Start()
-    {
-        shopPanel = FindObjectOfType<ShopPanel>();
-
+        if (PlayerPrefs.HasKey("CoinCount"))
+        {
+            coinCount.text = PlayerPrefs.GetInt("CoinCount").ToString();
+        }
     }
 
     private void Update()
     {
-        
+        coinCount.text = PlayerPrefs.GetInt("CoinCount").ToString();
     }
 
     public void SelectCannonModel(int index)
     {
-       SelectCannon.Instance.SelCannon(index);
         CannonIndex?.Invoke(index);
+        SaveCannon(index);
     }
+
+    public void SaveCannon(int index)
+    {
+        PlayerPrefs.SetInt(("CannonInd"), index);
+    }
+
+
 
 }

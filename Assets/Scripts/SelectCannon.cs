@@ -6,34 +6,42 @@ using UnityEngine;
 public class SelectCannon : MonoBehaviour
 {
     [SerializeField] private List<GameObject> cannonPrefabs = new List<GameObject>();
-    private static int cannonInd;
+    public int cannonInd;
 
     public static SelectCannon Instance;
 
     private void Awake()
     {
         Instance = this;
-
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
         Init();
+        Shop.CannonIndex += SelCannon;
     }
 
     public void Init()
     {
         cannonPrefabs[cannonInd].SetActive(true);
+        SelCannon(PlayerPrefs.GetInt("CannonInd"));
     }
 
     public void SelCannon(int index)
     {
-        foreach (GameObject cannon in cannonPrefabs)
+        for (int i = 0; i < cannonPrefabs.Count; i++)
         {
-            cannon.SetActive(false);
+            if (cannonPrefabs[i] != null)
+                cannonPrefabs[i].SetActive(false);
         }
 
-        cannonPrefabs[index].SetActive(true);
         cannonInd = index;
+
+        if (cannonPrefabs[cannonInd] != null)
+            cannonPrefabs[cannonInd].SetActive(true);
+
+
+
     }
 }

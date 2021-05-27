@@ -6,14 +6,9 @@ public class CannonBallCountText : MonoBehaviour
     [SerializeField] private TextMesh counterText;
     private Color transparentСolor = new Color(1, 1, 1, 0);
 
-    private void Awake()
-    {
-        
-    }
     void Start()
     {
         Init();
-        
     }
 
     public void Init()

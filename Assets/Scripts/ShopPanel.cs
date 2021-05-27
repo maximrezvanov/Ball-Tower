@@ -9,18 +9,23 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Button disabledBuyButton;
     [SerializeField] private Button enabledBuyButton;
     [SerializeField] private Button equipButton;
-    [SerializeField] private Text cannonCost;
+    [SerializeField] private Text cannonCostText;
+    [SerializeField] private int numberOfCoins;
     [SerializeField] private GameObject coinImage;
-    private bool canBuy, isEquip;
+    private bool canBuy, canBeEquip;
     [SerializeField] private bool isStartCannon;
     [SerializeField] private int cannonIndex;
+
     public static event UnityAction<int> SubtractCannonCost;
 
     private void Start()
     {
         equipButton.gameObject.SetActive(false);
-        Shop.Instance.CannonIndex += OnClickEquipButton;
+        Shop.CannonIndex += UpdateStatusEquipButton;
+        numberOfCoins = PlayerPrefs.GetInt("CoinCount");
+        cannonCostText.text = numberOfCoins.ToString();
     }
+
     private void Update()
     {
         ActivateBuyButton();
@@ -28,39 +33,40 @@ public class ShopPanel : MonoBehaviour
 
     private void ActivateBuyButton()
     {
-
-        if (UIHandler.totalCoins >= int.Parse(cannonCost.text))
+        if (UIHandler.totalCoins >= numberOfCoins)
         {
             canBuy = true;
             disabledBuyButton.gameObject.SetActive(false);
         }
 
-        if (isStartCannon) isEquip = true;
+        if (isStartCannon) canBeEquip = true;
     }
 
-    public void OnClickEquipButton(int index)
+    public void UpdateStatusEquipButton(int index)
     {
-        if(index != cannonIndex && isEquip)
+        index = PlayerPrefs.GetInt(("CannonInd"));
+        if (canBeEquip)
         {
             equipButton.gameObject.SetActive(true);
-
         }
+
     }
 
     public void DeactivateUIElements()
     {
         disabledBuyButton.gameObject.SetActive(false);
         enabledBuyButton.gameObject.SetActive(false);
-        cannonCost.gameObject.SetActive(false);
+        cannonCostText.gameObject.SetActive(false);
         coinImage.SetActive(false);
     }
 
     public void BuyCannon()
     {
-        int value = int.Parse(cannonCost.text);
+        numberOfCoins = PlayerPrefs.GetInt("CoinCount");      
         equipButton.gameObject.SetActive(true);
-        SubtractCannonCost?.Invoke(value);
-        isEquip = true;
+        SubtractCannonCost?.Invoke(numberOfCoins);
+        canBeEquip = true;
+        DeactivateUIElements();
     }
     
 }

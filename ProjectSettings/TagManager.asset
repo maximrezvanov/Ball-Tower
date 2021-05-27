@@ -7,6 +7,7 @@ TagManager:
   - bullet
   - superBall
   - text
+  - shopPanel
   layers:
   - Default
   - TransparentFX

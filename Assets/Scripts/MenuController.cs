@@ -10,6 +10,18 @@ public class MenuController : MonoBehaviour
     public Button onFx;
     public Button offFx;
     public Animator clickStart;
+    public Text bestScoreText;
+    ShopPanelHandler shopPanel;
+
+
+    private void Awake()
+    {
+        shopPanel = FindObjectOfType<ShopPanelHandler>();
+        if (PlayerPrefs.HasKey("BestScore"))
+        {
+            bestScoreText.text = "Best: " + PlayerPrefs.GetInt("BestScore").ToString();
+        }
+    }
 
     public void MuteMusic()
     {
@@ -33,7 +45,13 @@ public class MenuController : MonoBehaviour
 
     public void StartGame()
     {
-        StartCoroutine(StartFirstLevel());
+        clickStart.SetBool("onClickPlayButton", true);
+        Invoke("StartFirstLevel", 1.2f);
+    }
+
+    public void ShowShopPanel()
+    {
+       shopPanel.ShowShopPanel();
     }
 
     public void ExitGame()
@@ -62,12 +80,9 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    private IEnumerator StartFirstLevel()
+    private void StartFirstLevel()
     {
-        clickStart.SetBool("onClickPlayButton", true);
-        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(1);
-
     }
 }
 

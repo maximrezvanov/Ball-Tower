@@ -10,8 +10,7 @@ public class SceneController : MonoBehaviour
 
     public static SceneController Instance;
 
-    public int currentIndex;
-    public int ringCounter = 1;
+    [HideInInspector] public int ringCounter = 1;
     [SerializeField] private List<GameObject> levelInvironmentPrefabs = new List<GameObject>();
     [HideInInspector] public List<TowerRing> rings = new List<TowerRing>();
     private Tower tower;
@@ -20,6 +19,7 @@ public class SceneController : MonoBehaviour
     private Ammo ammo;
     private BoxHandler box;
     private CannonBallCountText cannonBallText;
+    private BrickBehavior brick;
     [HideInInspector] public int totalBullets = 1;
     private GameObject prevLevelModel;
     private int index;
@@ -32,6 +32,8 @@ public class SceneController : MonoBehaviour
     public event UnityAction<int> BullCount;
     public event UnityAction<int> RoundTimer;
 
+    public static int bestScore;
+    private int score;
 
 
     private void Awake()
@@ -64,6 +66,7 @@ public class SceneController : MonoBehaviour
             ringCounter -= 1;
         }
         ConstructLevel(index);
+        brick.ResetScore();
     }
 
     private IEnumerator NextLevel()
@@ -98,9 +101,6 @@ public class SceneController : MonoBehaviour
             if (ammo.IsEmptyMainAmmo() || rings.Count == 0)
             {
                 isCountNull = false;
-                //Debug.Log("IsEmptyMainAmmo");
-                //Debug.Log(isCountNull);
-
             }
 
             if (totalBullets < 0 && !ammo.IsEmptyMainAmmo() && isCountNull)
@@ -127,6 +127,7 @@ public class SceneController : MonoBehaviour
         ammo = FindObjectOfType<Ammo>();
         box = FindObjectOfType<BoxHandler>();
         cannonBallText = FindObjectOfType<CannonBallCountText>();
+        brick = FindObjectOfType<BrickBehavior>();
         tower.Init();
         towerRotator.Init();
         gun.Init();
@@ -139,14 +140,26 @@ public class SceneController : MonoBehaviour
         timer = (timeForOneRing - (timeForOneRing * ringCounter * 2 / timeForOneRing)) * ringCounter;
         startTime = timer;
         UIHandler.Instance.Init();
-
     }
 
     private void Update()
     {
         TimerHandler();
-        Debug.Log(timer);
+        ScoreHandler();
     }
+
+    private void ScoreHandler()
+    {
+        score = BrickBehavior.scoreCounter;
+
+        if (score > bestScore)
+        {
+            bestScore = score;
+            PlayerPrefs.SetInt("BestScore", bestScore);
+        }
+    }
+   
+
 
     private void TimerHandler()
     {
@@ -172,6 +185,7 @@ public class SceneController : MonoBehaviour
         while (index == lastIndex);
         ConstructLevel(index);
     }
+
 
     
 
