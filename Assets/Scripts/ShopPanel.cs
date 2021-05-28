@@ -27,7 +27,7 @@ public class ShopPanel : MonoBehaviour
     {
         equipButton.gameObject.SetActive(false);
         Shop.CannonIndex += UpdateStatusEquipButton;
-        numberOfCoins = PlayerPrefs.GetInt("CoinCount");
+        //numberOfCoins = PlayerPrefs.GetInt("CoinCount");
         cannonCostText.text = numberOfCoins.ToString();
         LoadCannonName();
     }
