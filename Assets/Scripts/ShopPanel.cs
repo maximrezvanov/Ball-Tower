@@ -15,9 +15,11 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Text cannonCostText;
     [SerializeField] private int numberOfCoins;
     [SerializeField] private GameObject coinImage;
-    [SerializeField] private bool isStartCannon;
     [SerializeField] private int cannonIndex;
-    private bool canBeEquip;
+    [SerializeField] private bool isStartCannon;
+
+    private bool canBeEquip, isEquipped;
+    private int startCannonIndex;
     private List<string> cannonsList = new List<string>();
     private static string cannonName = "";
 
@@ -25,16 +27,39 @@ public class ShopPanel : MonoBehaviour
 
     private void Start()
     {
-        equipButton.gameObject.SetActive(false);
         Shop.CannonIndex += UpdateStatusEquipButton;
-        //numberOfCoins = PlayerPrefs.GetInt("CoinCount");
+        Init();
+    }
+
+    private void Init()
+    {
         cannonCostText.text = numberOfCoins.ToString();
         LoadCannonName();
+
+        if (!canBeEquip)
+            equipButton.gameObject.SetActive(false);
+
+        if (isStartCannon)
+        {
+            equipButton.gameObject.SetActive(true);
+            canBeEquip = true;
+        }
+
+        if (PlayerPrefs.HasKey("CannonInd"))
+        {
+            startCannonIndex = PlayerPrefs.GetInt("CannonInd");
+        }
+
+        if (startCannonIndex == cannonIndex)
+        {
+            equipButton.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
     {
         ActivateBuyButton();
+        
 
     }
 
@@ -45,16 +70,20 @@ public class ShopPanel : MonoBehaviour
             disabledBuyButton.gameObject.SetActive(false);
         }
 
-        if (isStartCannon) canBeEquip = true;
     }
 
     public void UpdateStatusEquipButton(int index)
     {
-        index = PlayerPrefs.GetInt(("CannonInd"));
-        if (canBeEquip)
+        if (index != cannonIndex && canBeEquip)
         {
             equipButton.gameObject.SetActive(true);
         }
+
+    }
+
+    public void OnClickEquipButton()
+    {
+        isEquipped = true;
 
     }
 
@@ -68,7 +97,6 @@ public class ShopPanel : MonoBehaviour
 
     public void BuyCannon()
     {
-        numberOfCoins = PlayerPrefs.GetInt("CoinCount");
         equipButton.gameObject.SetActive(true);
         SubtractCannonCost?.Invoke(numberOfCoins);
         canBeEquip = true;
@@ -94,8 +122,6 @@ public class ShopPanel : MonoBehaviour
         if (cannonsList.Contains(cannonNameText.text))
         {
             DeactivateUIElements();
-            equipButton.gameObject.SetActive(true);
-
             canBeEquip = true;
         }
     }

@@ -59,7 +59,6 @@ public class BoxHandler : MonoBehaviour
             {
                 restarted = true;
                 SceneController.Instance.RestartLevel();
-                //UIHandler.Instance.ShowlosingPanel();
             }
         }
     }

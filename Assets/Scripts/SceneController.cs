@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
@@ -25,7 +24,6 @@ public class SceneController : MonoBehaviour
     private int index;
     private int lastIndex;
     private bool isCountNull;
-    bool restarted = false;
     [HideInInspector] public float timer;
     private int timeForOneRing = 30;
     [HideInInspector] public float startTime;
@@ -56,63 +54,12 @@ public class SceneController : MonoBehaviour
         StartCoroutine(NextLevel());
     }
 
-    private IEnumerator Restart()
-    {
-        GameController.Instance.isWin = false;
-        yield return new WaitForSeconds(2f);
-        if (prevLevelModel != null)
-        {
-            Destroy(prevLevelModel);
-            ringCounter -= 1;
-        }
-        ConstructLevel(index);
-        brick.ResetScore();
-    }
-
-    private IEnumerator NextLevel()
-    {
-        GameController.Instance.isWin = false;
-        StopCoroutine(CountBull());
-        yield return new WaitForSeconds(3f);
-        if (prevLevelModel != null)
-            Destroy(prevLevelModel);
-        ConstructRandomLevel();
-
-    }
-
     public void DestroyRing(TowerRing ring)
     {
         rings.Remove(ring);
     }
 
-    public IEnumerator CountBull()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(.1f);
-            totalBullets = tower.count + gun.shootBonus - gun.bullCounter;
-
-            if (!ammo.IsEmptyMainAmmo() && !isCountNull && totalBullets < 0 && rings.Count != 0)
-            {
-                isCountNull = true;
-
-            }
-
-            if (ammo.IsEmptyMainAmmo() || rings.Count == 0)
-            {
-                isCountNull = false;
-            }
-
-            if (totalBullets < 0 && !ammo.IsEmptyMainAmmo() && isCountNull)
-            {
-                restarted = true;
-                UIHandler.Instance.ShowlosingPanel();
-
-                RestartLevel();
-            }
-            BullCount?.Invoke(totalBullets);
-        }
-    }
+   
 
     private void ConstructLevel(int index)
     {
@@ -128,12 +75,14 @@ public class SceneController : MonoBehaviour
         box = FindObjectOfType<BoxHandler>();
         cannonBallText = FindObjectOfType<CannonBallCountText>();
         brick = FindObjectOfType<BrickBehavior>();
+
         tower.Init();
         towerRotator.Init();
         gun.Init();
         ringCounter++;
         box.Init();
         cannonBallText.Init();
+
         rings = tower.rings;
         prevLevelModel = levelModel;
         StartCoroutine(CountBull());
@@ -158,8 +107,6 @@ public class SceneController : MonoBehaviour
             PlayerPrefs.SetInt("BestScore", bestScore);
         }
     }
-   
-
 
     private void TimerHandler()
     {
@@ -186,7 +133,57 @@ public class SceneController : MonoBehaviour
         ConstructLevel(index);
     }
 
+    public IEnumerator CountBull()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.1f);
+            totalBullets = tower.count + gun.shootBonus - gun.bullCounter;
 
-    
+            if (!ammo.IsEmptyMainAmmo() && !isCountNull && totalBullets < 0 && rings.Count != 0)
+            {
+                isCountNull = true;
+
+            }
+
+            if (ammo.IsEmptyMainAmmo() || rings.Count == 0)
+            {
+                isCountNull = false;
+            }
+
+            if (totalBullets < 0 && !ammo.IsEmptyMainAmmo() && isCountNull)
+            {
+                UIHandler.Instance.ShowlosingPanel();
+
+                RestartLevel();
+            }
+            BullCount?.Invoke(totalBullets);
+        }
+    }
+
+    private IEnumerator Restart()
+    {
+        GameController.Instance.isWin = false;
+        yield return new WaitForSeconds(2f);
+        if (prevLevelModel != null)
+        {
+            Destroy(prevLevelModel);
+            ringCounter -= 1;
+        }
+        ConstructLevel(index);
+        brick.ResetScore();
+    }
+
+    private IEnumerator NextLevel()
+    {
+        GameController.Instance.isWin = false;
+        StopCoroutine(CountBull());
+        yield return new WaitForSeconds(3f);
+        if (prevLevelModel != null)
+            Destroy(prevLevelModel);
+        ConstructRandomLevel();
+
+    }
+
 
 }
