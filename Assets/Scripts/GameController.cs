@@ -6,17 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public List<Material> mats;
     public static GameController Instance;
-    private BoxHandler box;
+    [HideInInspector] public bool isSuperBallCollision = false;
+    public List<Material> mats;
     public bool isWin = false;
     public bool isShowUI = true;
-    [HideInInspector] public bool isSuperBallCollision = false;
 
     private void Awake()
     {
         Instance = this;
-
     }
 
     private void Update()
@@ -32,6 +30,8 @@ public class GameController : MonoBehaviour
     private void OpenTheBoxToWin()
     {
         if (isWin)
+        {
             SceneController.Instance.LoadLevel();
+        }
     }
 }

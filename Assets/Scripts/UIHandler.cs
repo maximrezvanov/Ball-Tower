@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
+    [HideInInspector] public static int totalCoins;
     public static UIHandler Instance;
     public GameObject lastBullPanel;
     public GameObject losingPanel;
@@ -17,10 +18,7 @@ public class UIHandler : MonoBehaviour
     public GameObject musicOnPanel;
     public GameObject soundOffPanel;
     public GameObject soundOnPanel;
-    //public ScrollRect scroll;
     public bool isPause;
-    private float showTime = 2.5f;
-    [HideInInspector] public static int totalCoins;
     public Animator settingsPanel;
     public Animator timerAnimator;
     [SerializeField] private Text coinText;
@@ -28,14 +26,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private Text timeIsOverText;
     [SerializeField] private Text scoreText;
     [SerializeField] private Slider timeSlider;
-    private BrickBehavior brick;
+    private float showTime = 2.5f;
     ShopPanelHandler shopPanel;
-
-    private void Awake()
-    {
-        Instance = this;
-        shopPanel = FindObjectOfType<ShopPanelHandler>();
-    }
 
     public void Init()
     {
@@ -50,28 +42,6 @@ public class UIHandler : MonoBehaviour
             totalCoins = PlayerPrefs.GetInt("CoinCount");
         }
         coinText.text = totalCoins.ToString();
-    }
-
-    private void Start()
-    {
-        SceneController.Instance.RoundTimer += UpdateTimer;
-        BoxHandler.CoinCount += CoinCounterHandler;
-        ShopPanel.SubtractCannonCost += CoinCounterAfterCannonBought;
-        brick = FindObjectOfType<BrickBehavior>();
-        StartCoroutine(GetMusicIcon());
-        StartCoroutine(GetSoundIcon());
-        //scroll.normalizedPosition = new Vector2(scroll.normalizedPosition.y, 1);
-        timerAnimator.SetBool("isTimeOver", false);
-        timeSlider.maxValue = SceneController.Instance.startTime;
-    }
-
-    private void Update()
-    {
-        TimerHandler();
-        ScoreHandler();
-        if (totalCoins < 0) totalCoins = 0;
-        PlayerPrefs.SetInt("CoinCount", totalCoins);
-
     }
 
     private void ScoreHandler()
@@ -109,24 +79,6 @@ public class UIHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(showTime);
         panel.SetActive(false);
-    }
-
-    private void CoinCounterHandler(int number)
-    {
-        totalCoins += number;
-        coinText.text = totalCoins.ToString();
-    }
-
-    private void CoinCounterAfterCannonBought(int number)
-    {
-        totalCoins -= number;
-        coinText.text = totalCoins.ToString();
-        PlayerPrefs.Save();
-    }
-
-    private void UpdateTimer(int timer)
-    {
-        timerText.text = timer.ToString();
     }
 
     public void ShowPauseMenu()
@@ -176,6 +128,51 @@ public class UIHandler : MonoBehaviour
     public void OffFx()
     {
         SoundController.Instance.OffFx();
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+        shopPanel = FindObjectOfType<ShopPanelHandler>();
+    }
+
+    private void Start()
+    {
+        SceneController.Instance.OnRoundTimer += UpdateTimer;
+        BoxHandler.OnCoinCount += CoinCounterHandler;
+        ShopPanel.OnSubtractCannonCost += CoinCounterAfterCannonBought;
+        StartCoroutine(GetMusicIcon());
+        StartCoroutine(GetSoundIcon());
+        //scroll.normalizedPosition = new Vector2(scroll.normalizedPosition.y, 1);
+        timerAnimator.SetBool("isTimeOver", false);
+        timeSlider.maxValue = SceneController.Instance.startTime;
+    }
+
+    private void Update()
+    {
+        TimerHandler();
+        ScoreHandler();
+        if (totalCoins < 0) totalCoins = 0;
+        PlayerPrefs.SetInt("CoinCount", totalCoins);
+
+    }
+
+    private void CoinCounterHandler(int number)
+    {
+        totalCoins += number;
+        coinText.text = totalCoins.ToString();
+    }
+
+    private void CoinCounterAfterCannonBought(int number)
+    {
+        totalCoins -= number;
+        coinText.text = totalCoins.ToString();
+        PlayerPrefs.Save();
+    }
+
+    private void UpdateTimer(int timer)
+    {
+        timerText.text = timer.ToString();
     }
 
     private IEnumerator GetMusicIcon()

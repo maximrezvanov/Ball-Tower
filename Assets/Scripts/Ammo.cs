@@ -7,23 +7,22 @@ using UnityEngine;
 public class Ammo : MonoBehaviour
 {
     public Bullet[] bullets;
-    private Tower tower;
-    private BrickBehavior brick;
-    [SerializeField] private int bulletsQueueLength = 1;
-    [SerializeField] private int superBallsCount = 10;
     public List<Bullet> bulletsQueue = new List<Bullet>();
     public List<Bullet> superBalls = new List<Bullet>();
-
+    public List<Bullet> lastBullets = new List<Bullet>();
+    [SerializeField] private int bulletsQueueLength = 1;
+    [SerializeField] private int superBallsCount = 10;
+    [SerializeField] private GameObject cannonBall;
     [SerializeField] private GameObject nextBullet;
     private List<TowerRing> rings = new List<TowerRing>();
-    List<Color> bullColList = new List<Color>();
-    public List<Bullet> lastBullets = new List<Bullet>();
-    [SerializeField] private GameObject cannonBall;
-    private bool isLastBull = false;
-    Bullet nextBull;
-    private int superBallIndex;
-    int index = 0;
     private List<int> superIndexes = new List<int>();
+    private Tower tower;
+    private bool isLastBull = false;
+    private Bullet nextBull;
+    private int superBallIndex;
+    private int index = 0;
+    private int goldCannonBallCount = 3;
+    private List<Color> bullColList = new List<Color>();
 
     public bool IsEmpty()
     {
@@ -43,11 +42,9 @@ public class Ammo : MonoBehaviour
         return false;
     }
 
-
-    private void Awake()
+    void Awake()
     {
         tower = FindObjectOfType<Tower>();
-        brick = FindObjectOfType<BrickBehavior>();
         rings = tower.rings;
     }
 
@@ -63,14 +60,11 @@ public class Ammo : MonoBehaviour
         if(!isLastBull)
         index++;
 
-        //if (!isLastBull)
-        //    DetectedColor();
-
         if (bulletsQueue.Count == 0 && !isLastBull)
         {
             LastShoot();
         }
-        if (bulletsQueue.Count == 3)
+        if (bulletsQueue.Count == goldCannonBallCount)
         {
             UIHandler.Instance.ShowLastBullPanel();
         }
@@ -93,15 +87,6 @@ public class Ammo : MonoBehaviour
         DetectedSuperBall();
         Debug.Log("index " + index);
         return bullet;
-    }
-
-
-    private void LastShoot()
-    {
-        bulletsQueue = lastBullets;
-        index = 0;
-        isLastBull = true;
-        HideCannonBall();
     }
 
     public void HideCannonBall()
@@ -141,6 +126,14 @@ public class Ammo : MonoBehaviour
             superIndexes.Add(superBallIndex);
             Debug.Log(superBallIndex);
         }
+    }
+
+    private void LastShoot()
+    {
+        bulletsQueue = lastBullets;
+        index = 0;
+        isLastBull = true;
+        HideCannonBall();
     }
 
     private void DetectedSuperBall()
@@ -203,7 +196,7 @@ public class Ammo : MonoBehaviour
         }
     }
 
-    public IEnumerator ChangeCurrentColor()
+    private IEnumerator ChangeCurrentColor()
     {
         while (true)
         {
@@ -222,14 +215,5 @@ public class Ammo : MonoBehaviour
             }
         }
     }
-
-    //public Bullet SetMaterial(int index)
-    //{
-    //    bullets[index].GetComponent<Renderer>().material = GameController.Instance.mats[index];
-
-    //    return bullets[index];
-    //}
-
-
 }
 

@@ -3,30 +3,28 @@ using UnityEngine;
 
 public class BrickBehavior : MonoBehaviour
 {
-    private Renderer rend;
-    public int colorIndex = 0;
-    private Bullet bullet;
-    public bool IsMatch = false;
-    private Color basicColor = new Color(0.5538003f, 0.79887f, 0.8962264f);
-    public bool test = false;
-    public bool isSuperBall;
     public static int scoreCounter;
-
-    public int ColorIndex => colorIndex;
-
-    void Awake()
+    public bool isSuperBall;
+    public bool IsMatch = false;
+    public int colorIndex = 0;
+    private Renderer rend;
+    private Color basicColor = new Color(0.5538003f, 0.79887f, 0.8962264f);
+    
+    public void ResetScore()
     {
-        rend = GetComponent<Renderer>();
-        
+        scoreCounter = 0;
     }
 
-    private void Start()
+    public List<BrickBehavior> InitBrick(int brickCount)
     {
-        bullet = FindObjectOfType<Bullet>();
-        if (rend.material.name == "BasicColorMat (Instance)")
+        List<BrickBehavior> bricksList = new List<BrickBehavior>();
+        BrickBehavior brick = new BrickBehavior();
+
+        for (int i = 0; i < brickCount; i++)
         {
-            IsMatch = true;
+            bricksList.Add(brick);
         }
+        return bricksList;
     }
 
     public void SetMaterial(int colorIndex)
@@ -35,6 +33,23 @@ public class BrickBehavior : MonoBehaviour
         rend.material = GameController.Instance.mats[colorIndex];
     }
 
+    private void Awake()
+    {
+        rend = GetComponent<Renderer>();
+    }
+
+    private void Start()
+    {
+        SetBoolForBsicMaterial();
+    }
+
+    private void SetBoolForBsicMaterial()
+    {
+        if (rend.material.name == "BasicColorMat (Instance)")
+        {
+            IsMatch = true;
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -46,7 +61,6 @@ public class BrickBehavior : MonoBehaviour
             Debug.Log(rend.material.name);
             rend.material.color = basicColor;
             IsMatch = true;
-            test = true;
             scoreCounter++;
         }
 
@@ -58,22 +72,5 @@ public class BrickBehavior : MonoBehaviour
             Debug.Log("br SuperBall coll");
             scoreCounter += 10;
         }
-    }
-
-    public void ResetScore()
-    {
-        scoreCounter = 0;
-    }
-
-    public List<BrickBehavior> InitBrick(int brickCount)
-    {
-        List<BrickBehavior> bricksList = new List<BrickBehavior>();
-        BrickBehavior brick = new BrickBehavior();
-        
-        for (int i = 0; i < brickCount; i++)
-        {
-            bricksList.Add(brick);
-        }
-        return bricksList;
     }
 }

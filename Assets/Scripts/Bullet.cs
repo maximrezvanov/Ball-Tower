@@ -5,27 +5,11 @@ public class Bullet : MonoBehaviour
 {
 
     public int colorIndex;
-    private Renderer rend;
-    private Rigidbody rb;
+    public bool isSuperBall;
     [SerializeField] private float lifeTime = 3.5f;
     [SerializeField] private ParticleSystem fireBall;
-    public bool isSuperBall;
-
-    private void Awake()
-    {
-        rend = GetComponent<Renderer>();
-        rb = GetComponent<Rigidbody>();
-    }
-
-    public int ColorIndex => colorIndex;   
-
-    private void DestroyBullet()
-    {
-        if (!rend.isVisible || transform.position.z > 20f || lifeTime <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
+    private Renderer rend;
+    private Rigidbody rb;
 
     public void SetVelocity(Vector3 velocity)
     {
@@ -49,14 +33,10 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public void EnabledFireBall()
+    private void Awake()
     {
-        fireBall.gameObject.SetActive(true);
-    }
-
-    public void DisabledFireBall()
-    {
-        fireBall.gameObject.SetActive(false);
+        rend = GetComponent<Renderer>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -67,13 +47,24 @@ public class Bullet : MonoBehaviour
         {
             EnabledFireBall();
         }
-        
+    }
+
+    private void DestroyBullet()
+    {
+        if (!rend.isVisible || transform.position.z > 20f || lifeTime <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void EnabledFireBall()
+    {
+        fireBall.gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         rb.useGravity = true;
-
     }
 
 }

@@ -11,32 +11,37 @@ public class Gun : MonoBehaviour
 {
     public Transform shootPoint;
     public float speed = 10f;
-    private Ammo ammo;
-    private SelectCannon cannonModel;
-    [SerializeField] float minRotationAngle;
-    [SerializeField] float maxRotationAngle;
-    [SerializeField] float minAngleX;
-    [SerializeField] float maxAngleX;
+    public int shootBonus = 100;
+    public int bullCounter;
+    [SerializeField] private float minRotationAngle;
+    [SerializeField] private float maxRotationAngle;
+    [SerializeField] private float minAngleX;
+    [SerializeField] private float maxAngleX;
     [SerializeField] private ParticleSystem shootPs;
-    [SerializeField] float intersectionPoint = 20f;
+    [SerializeField] private float intersectionPoint = 20f;
     private Camera mainCamera;
     private bool isReadyToShoot = true;
-    public int shootBonus = 100;
-
     private int count = 0;
     private int countV = 0;
-    public int bullCounter;
+    private Ammo ammo;
 
     public void Init()
     {
         ammo.Init();
-        //cannonModel.Init();
     }
 
-    void Awake()
+    public bool CanShoot()
+    {
+        if (ammo.IsEmpty())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void Awake()
     {
         ammo = FindObjectOfType<Ammo>();
-        cannonModel = FindObjectOfType<SelectCannon>();
         mainCamera = Camera.main;
         while (minRotationAngle < 0)
         {
@@ -53,7 +58,7 @@ public class Gun : MonoBehaviour
         maxAngleX += countV * 360;
     }
 
-    void Update()
+    private void Update()
     {
         LaunchProjectile();
     }
@@ -67,7 +72,7 @@ public class Gun : MonoBehaviour
         return results.Count > 0;
     }
 
-    void LaunchProjectile()
+    private void LaunchProjectile()
     {
         if (!UIHandler.Instance.isPause)
         {
@@ -123,28 +128,18 @@ public class Gun : MonoBehaviour
 
     //}
 
-    bool IsBetween(float start, float end, float mid)
-    {
-        end = (end - start) < 0.0f ? end - start + 360.0f : end - start;
-        mid = (mid - start) < 0.0f ? mid - start + 360.0f : mid - start;
-        return (mid < end);
-    }
-
-    public bool CanShoot()
-    {
-        if (ammo.IsEmpty())
-        {
-            return false;
-        }
-        return true;
-    }
-
-    public IEnumerator ReadyToShoot()
+    private IEnumerator ReadyToShoot()
     {
         isReadyToShoot = false;
         yield return new WaitForSeconds(0.5f);
         isReadyToShoot = true;
     }
 
+    private bool IsBetween(float start, float end, float mid)
+    {
+        end = (end - start) < 0.0f ? end - start + 360.0f : end - start;
+        mid = (mid - start) < 0.0f ? mid - start + 360.0f : mid - start;
+        return (mid < end);
+    }
 }
 

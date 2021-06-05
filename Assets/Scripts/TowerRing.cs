@@ -5,24 +5,19 @@ using UnityEngine;
 
 public class TowerRing : MonoBehaviour
 {
-    [SerializeField] private List<BrickBehavior> bricks = new List<BrickBehavior>();
-    private bool isHide = false;
-    [SerializeField] int colorCount = 4;
-    [SerializeField] int brickColoredCount = 4;
-    [SerializeField] private ParticleSystem particle;
-    private BrickBehavior brick;
     public int coloredCounter = 0;
-
+    [SerializeField] private List<BrickBehavior> bricks = new List<BrickBehavior>();
+    [SerializeField] private int colorCount = 4;
+    [SerializeField] private int brickColoredCount = 4;
+    [SerializeField] private ParticleSystem particle;
+    private bool isHide;
 
     private void Start()
     {
-        brick = FindObjectOfType<BrickBehavior>();
         Init();
         GetColoredCounter();
         StartCoroutine(SuperBallDestroyRing());
     }
-
-
 
     private void Init()
     {
@@ -48,7 +43,6 @@ public class TowerRing : MonoBehaviour
             if (bricks[i].GetComponent<Renderer>().material.name != "BasicColorMat (Instance)")
             {
                 coloredCounter++;
-
             }
         }
     }
@@ -57,19 +51,20 @@ public class TowerRing : MonoBehaviour
     {
         HideRing();
     }
+
     private void HideRing()
     {
-        bool match = true;
+        bool isMatch = true;
         foreach (var item in bricks)
         {
             if (!item.IsMatch)
             {
-                match = false;
+                isMatch = false;
                 break;
             }
         }
 
-        if (match && !isHide)
+        if (isMatch && !isHide)
         {
             StartDestroying();
             SoundController.Instance.PlaySound(SoundController.Instance.destroyRing);
@@ -83,7 +78,6 @@ public class TowerRing : MonoBehaviour
         StartCoroutine(DestroyRing());
     }
 
-
     public List<Color> GetColorArr()
     {
         List<Color> colors = new List<Color>();
@@ -92,7 +86,9 @@ public class TowerRing : MonoBehaviour
         {
             var col = item.GetComponent<Renderer>().sharedMaterial.color;
             if (col != Color.black)
+            {
                 colors.Add(col);
+            }
         }
         return colors;
     }
@@ -104,7 +100,7 @@ public class TowerRing : MonoBehaviour
         SceneController.Instance.DestroyRing(this);
     }
 
-    public IEnumerator SuperBallDestroyRing()
+    private IEnumerator SuperBallDestroyRing()
     {
         while (true)
         {
@@ -114,15 +110,10 @@ public class TowerRing : MonoBehaviour
             {
                 if (item.isSuperBall)
                 {
-                    //SoundController.Instance.PlaySound(SoundController.Instance.collisionSuperBall);
                     StartDestroying();
-
                 }
-
             }
         }
-      
-
     }
 }
 

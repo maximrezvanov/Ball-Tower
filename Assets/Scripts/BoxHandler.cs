@@ -5,18 +5,22 @@ using UnityEngine.Events;
 
 public class BoxHandler : MonoBehaviour
 {
+    public static event UnityAction<int> OnCoinCount;
+    public int coins;
     [SerializeField] private ParticleSystem particle;
-    [SerializeField] GameObject coinPrefab;
-    [SerializeField] Transform coinSpawnPoin;
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private Transform coinSpawnPoin;
+    [SerializeField] private float timeSpawn;
     private Gun gun;
     private Bullet bullet;
     private TowerRing towerRing;
     private int counter;
-    public int coins;
-    [SerializeField] private float timeSpawn;
     private float flyCoinSpeed = 50000f;
-    public static event UnityAction<int> CoinCount;
 
+    public void Init()
+    {
+        coins = SceneController.Instance.ringCounter * 10;
+    }
 
     private void Start()
     {
@@ -25,12 +29,6 @@ public class BoxHandler : MonoBehaviour
         StartCoroutine(CanShoot());
         counter = SceneController.Instance.ringCounter * 10;
         coins = counter;
-    }
-
-    public void Init()
-    {
-        coins = SceneController.Instance.ringCounter * 10;
-         
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,7 +41,7 @@ public class BoxHandler : MonoBehaviour
             particle.Play();
             GameController.Instance.isWin = true;
             Destroy(collision.gameObject);
-            CoinCount?.Invoke(coins);
+            OnCoinCount?.Invoke(coins);
             SoundController.Instance.PlaySound(SoundController.Instance.coinSound);
         }
     }

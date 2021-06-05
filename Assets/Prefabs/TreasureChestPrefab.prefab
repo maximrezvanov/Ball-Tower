@@ -5030,8 +5030,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4400048, y: 1.7649381, z: 1}
-  m_Center: {x: 0.021795511, y: 0.90246904, z: 0}
+  m_Size: {x: 2.5, y: 2.3945036, z: 1.5}
+  m_Center: {x: 0.021795511, y: 1.0969667, z: 0}
 --- !u!114 &3471643305006496069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5062,6 +5062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e971e3151c4d043958a65d4d41483d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coins: 0
   particle: {fileID: 4521049755679428206}
   coinPrefab: {fileID: 1498403948531744, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
   coinSpawnPoin: {fileID: 399988282384599729}

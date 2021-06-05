@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ShopPanel : MonoBehaviour
 {
+    public static event UnityAction<int> OnSubtractCannonCost;
+    private static string cannonName = String.Empty;
     public string playerPrefString;
     public Text cannonNameText;
     [SerializeField] private Button disabledBuyButton;
@@ -17,17 +19,23 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private GameObject coinImage;
     [SerializeField] private int cannonIndex;
     [SerializeField] private bool isStartCannon;
-
-    private bool canBeEquip, isEquipped;
+    private bool canBeEquip;
     private int startCannonIndex;
     private List<string> cannonsList = new List<string>();
-    private static string cannonName = "";
 
-    public static event UnityAction<int> SubtractCannonCost;
+
+    public void BuyCannon()
+    {
+        equipButton.gameObject.SetActive(true);
+        OnSubtractCannonCost?.Invoke(numberOfCoins);
+        canBeEquip = true;
+        DeactivateUIElements();
+        SaveCannonName();
+    }
 
     private void Start()
     {
-        Shop.CannonIndex += UpdateStatusEquipButton;
+        Shop.OnCannonIndex += OnCannonIndexHandler;
         Init();
     }
 
@@ -59,49 +67,30 @@ public class ShopPanel : MonoBehaviour
     private void Update()
     {
         ActivateBuyButton();
-        
-
     }
 
     private void ActivateBuyButton()
     {
-        if (UIHandler.totalCoins >= numberOfCoins)
+        if (UIHandler.totalCoins >= numberOfCoins || Shop.Instance.myMoney >= numberOfCoins)
         {
             disabledBuyButton.gameObject.SetActive(false);
         }
-
     }
 
-    public void UpdateStatusEquipButton(int index)
+    private void OnCannonIndexHandler(int index)
     {
         if (index != cannonIndex && canBeEquip)
         {
             equipButton.gameObject.SetActive(true);
         }
-
     }
 
-    public void OnClickEquipButton()
-    {
-        isEquipped = true;
-
-    }
-
-    public void DeactivateUIElements()
+    private void DeactivateUIElements()
     {
         disabledBuyButton.gameObject.SetActive(false);
         enabledBuyButton.gameObject.SetActive(false);
         cannonCostText.gameObject.SetActive(false);
         coinImage.SetActive(false);
-    }
-
-    public void BuyCannon()
-    {
-        equipButton.gameObject.SetActive(true);
-        SubtractCannonCost?.Invoke(numberOfCoins);
-        canBeEquip = true;
-        DeactivateUIElements();
-        SaveCannonName();
     }
 
     private void SaveCannonName()
@@ -126,9 +115,9 @@ public class ShopPanel : MonoBehaviour
         }
     }
 
-    void StringToList(string message, string seperator)
+    private void StringToList(string message, string seperator)
     {
-        string name = "";
+        string name = String.Empty;
         foreach (char character in message)
         {
             name += character;

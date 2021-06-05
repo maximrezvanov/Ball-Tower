@@ -6,12 +6,20 @@ using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
+    public static event UnityAction<int> OnCannonIndex;
     public Text coinCount;
-
-    public static event UnityAction<int> CannonCost;
-    public static event UnityAction<int> CannonIndex;
     public static Shop Instance;
-   
+    public int myMoney;
+    public void SelectCannonModel(int index)
+    {
+        OnCannonIndex?.Invoke(index);
+        SaveCannonModel(index);
+    }
+
+    public void SaveCannonModel(int index)
+    {
+        PlayerPrefs.SetInt(("CannonInd"), index);
+    }
 
     private void Awake()
     {
@@ -22,25 +30,16 @@ public class Shop : MonoBehaviour
         {
             coinCount.text = PlayerPrefs.GetInt("CoinCount").ToString();
         }
+
+        if (PlayerPrefs.HasKey("CoinCount"))
+        {
+            myMoney = PlayerPrefs.GetInt("CoinCount");
+        }
     }
 
     private void Update()
     {
         coinCount.text = PlayerPrefs.GetInt("CoinCount").ToString();
-
     }
-
-    public void SelectCannonModel(int index)
-    {
-        CannonIndex?.Invoke(index);
-        SaveCannon(index);
-    }
-
-    public void SaveCannon(int index)
-    {
-        PlayerPrefs.SetInt(("CannonInd"), index);
-    }
-
-
 
 }

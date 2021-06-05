@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,17 +12,7 @@ public class MenuController : MonoBehaviour
     public Button offFx;
     public Animator clickStart;
     public Text bestScoreText;
-    ShopPanelHandler shopPanel;
-
-
-    private void Awake()
-    {
-        shopPanel = FindObjectOfType<ShopPanelHandler>();
-        if (PlayerPrefs.HasKey("BestScore"))
-        {
-            bestScoreText.text = "Best: " + PlayerPrefs.GetInt("BestScore").ToString();
-        }
-    }
+    private ShopPanelHandler shopPanel;
 
     public void MuteMusic()
     {
@@ -57,6 +48,16 @@ public class MenuController : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    private void Awake()
+    {
+        shopPanel = FindObjectOfType<ShopPanelHandler>();
+
+        if (PlayerPrefs.HasKey("BestScore"))
+        {
+            bestScoreText.text = "Best: " + PlayerPrefs.GetInt("BestScore").ToString();
+        }
     }
 
     private void Start()

@@ -10,7 +10,6 @@ public class Clouds : MonoBehaviour
     void Start()
     {
         rend = GetComponent<Renderer>();
-
     }
 
     void FixedUpdate()
@@ -21,7 +20,9 @@ public class Clouds : MonoBehaviour
 
     private void DestroyCloud()
     {
-        if(!rend.isVisible)
+        if (!rend.isVisible)
+        {
             Destroy(gameObject);
+        }
     }
 }

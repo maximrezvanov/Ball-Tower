@@ -1,22 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Tower : MonoBehaviour
 {   
-    //[Range(0, 10), SerializeField] private int ringsCount;
-     [HideInInspector]public int ringsCount;
-
-    [SerializeField] TowerRing ringPrefab;
-    [SerializeField] private GameObject spawnPoint;
-    [SerializeField] private Transform parent;
+    [HideInInspector]public int ringsCount;
     public List<TowerRing> rings = new List<TowerRing>();
     public int count = 0;
-
+    [SerializeField] private TowerRing ringPrefab;
+    [SerializeField] private GameObject spawnPoint;
+    [SerializeField] private Transform parent;
+    
     public void Init()
     {
-        //ringsCount = SceneManager.GetActiveScene().buildIndex + 1;
         ringsCount = SceneController.Instance.ringCounter + 1;
         GetTowerRings();
         StartCoroutine(CountColoredBricks());
@@ -33,7 +29,6 @@ public class Tower : MonoBehaviour
             towerRing.transform.SetParent(parent);
             rings.Add(towerRing);
         }
-
     }
 
     private IEnumerator CountColoredBricks()
@@ -44,6 +39,5 @@ public class Tower : MonoBehaviour
         {
             count += item.coloredCounter;
         }
-
     }
 }

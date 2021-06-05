@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 
 public class SoundController : MonoBehaviour
 {
-    private AudioSource audio;
     public AudioClip shootSound;
     public AudioClip destroyRing;
     public AudioClip openedBox;
@@ -18,9 +14,8 @@ public class SoundController : MonoBehaviour
     public static float fxLevel = 1.0f;
     public bool isFxOff;
     public bool isMusicOff;
-
     [SerializeField] private AudioMixerGroup mixer;
-
+    private AudioSource audio;
 
     public static SoundController Instance
     {
@@ -32,6 +27,40 @@ public class SoundController : MonoBehaviour
 
     private static SoundController instance = null;
 
+    public void PlaySound(AudioClip clip)
+    {
+        audio.clip = clip;
+        audio.Play();
+    }
+
+    public void OffMusic()
+    {
+        musicLevel = -80f;
+        isMusicOff = true;
+        PlayerPrefs.SetInt("music", 0);
+    }
+
+    public void OnMusic()
+    {
+        musicLevel = 0f;
+        isMusicOff = false;
+        PlayerPrefs.SetInt("music", 1);
+    }
+
+    public void OffFx()
+    {
+        fxLevel = -80f;
+        isFxOff = true;
+        PlayerPrefs.SetInt("sound", 0);
+    }
+
+    public void OnFx()
+    {
+        fxLevel = 0f;
+        isFxOff = false;
+        PlayerPrefs.SetInt("sound", 1);
+    }
+
     private void Awake()
     {
         if (instance)
@@ -40,7 +69,9 @@ public class SoundController : MonoBehaviour
             return;
         }
         else
+        {
             DontDestroyOnLoad(gameObject);
+        }
 
         instance = this;
         DontDestroyOnLoad(this);
@@ -49,12 +80,13 @@ public class SoundController : MonoBehaviour
     private void Start()
     {
         audio = GetComponent<AudioSource>();
+        Init();
     }
 
-    public void PlaySound(AudioClip clip)
+    private void Init()
     {
-        audio.clip = clip;
-        audio.Play();
+        StartWithMusic();
+        StartWithFx();
     }
 
     private void Update()
@@ -62,38 +94,47 @@ public class SoundController : MonoBehaviour
         mixer.audioMixer.SetFloat("Music", musicLevel);
         mixer.audioMixer.SetFloat("Effects", fxLevel);
 
-        if (fxLevel  == - 80f)
+        if (fxLevel == -80f)
         {
             isFxOff = true;
         }
-         
+
         if (musicLevel == -80f)
         {
             isMusicOff = true;
         }
     }
 
-    public void OffMusic()
+    private void StartWithMusic()
     {
-        musicLevel = -80f;
-        isMusicOff = true;
+        if (!PlayerPrefs.HasKey("music"))
+        {
+            OnMusic();
+            PlayerPrefs.SetInt("music", 1);
+        }
+
+        else
+        {
+            if (PlayerPrefs.GetInt("music") == 0)
+            {
+                OffMusic();
+            }
+        }
     }
 
-    public void OnMusic()
+    private void StartWithFx()
     {
-        musicLevel = 0f;
-        isMusicOff = false;
-    }
+        if (!PlayerPrefs.HasKey("sound"))
+        {
+            OnFx();
+        }
 
-    public void OffFx()
-    {
-        fxLevel = -80f;
-        isFxOff = true;
-    }
-
-    public void OnFx()
-    {
-        fxLevel = 0f;
-        isFxOff = false;
+        else
+        {
+            if (PlayerPrefs.GetInt("sound") == 0)
+            {
+                OffFx();
+            }
+        }
     }
 }

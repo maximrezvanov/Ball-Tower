@@ -13,10 +13,10 @@ public class CannonBallCountText : MonoBehaviour
 
     public void Init()
     {
-        SceneController.Instance.BullCount += ShowBullCount;
+        SceneController.Instance.OnBullCount += OnBullCountHandler;
     }
 
-    public void ShowBullCount(int number)
+    public void OnBullCountHandler(int number)
     {
         counterText = FindObjectOfType<TextMesh>();
         counterText.text = number.ToString();

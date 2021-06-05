@@ -6,12 +6,16 @@ using UnityEngine.Events;
 
 public class SceneController : MonoBehaviour
 {
-
+    public event UnityAction<int> OnBullCount;
+    public event UnityAction<int> OnRoundTimer;
     public static SceneController Instance;
-
+    public static int bestScore;
     [HideInInspector] public int ringCounter = 1;
-    [SerializeField] private List<GameObject> levelInvironmentPrefabs = new List<GameObject>();
     [HideInInspector] public List<TowerRing> rings = new List<TowerRing>();
+    [HideInInspector] public int totalBullets = 1;
+    [HideInInspector] public float timer;
+    [HideInInspector] public float startTime;
+    [SerializeField] private List<GameObject> levelInvironmentPrefabs = new List<GameObject>();
     private Tower tower;
     private TowerRotator towerRotator;
     private Gun gun;
@@ -19,30 +23,12 @@ public class SceneController : MonoBehaviour
     private BoxHandler box;
     private CannonBallCountText cannonBallText;
     private BrickBehavior brick;
-    [HideInInspector] public int totalBullets = 1;
     private GameObject prevLevelModel;
     private int index;
     private int lastIndex;
     private bool isCountNull;
-    [HideInInspector] public float timer;
     private int timeForOneRing = 30;
-    [HideInInspector] public float startTime;
-    public event UnityAction<int> BullCount;
-    public event UnityAction<int> RoundTimer;
-
-    public static int bestScore;
     private int score;
-
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        ConstructLevel(index);
-    }
 
     public void RestartLevel()
     {
@@ -58,8 +44,6 @@ public class SceneController : MonoBehaviour
     {
         rings.Remove(ring);
     }
-
-   
 
     private void ConstructLevel(int index)
     {
@@ -91,6 +75,16 @@ public class SceneController : MonoBehaviour
         UIHandler.Instance.Init();
     }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        ConstructLevel(index);
+    }
+
     private void Update()
     {
         TimerHandler();
@@ -113,7 +107,7 @@ public class SceneController : MonoBehaviour
         if (timer > 0 && !UIHandler.Instance.isPause && rings.Count != 0)
         {
             timer -= Time.deltaTime;
-            RoundTimer?.Invoke((int)timer);
+            OnRoundTimer?.Invoke((int)timer);
         }
         else if (timer <= 0 && !UIHandler.Instance.isPause)
         {
@@ -133,7 +127,7 @@ public class SceneController : MonoBehaviour
         ConstructLevel(index);
     }
 
-    public IEnumerator CountBull()
+    private IEnumerator CountBull()
     {
         while (true)
         {
@@ -157,7 +151,7 @@ public class SceneController : MonoBehaviour
 
                 RestartLevel();
             }
-            BullCount?.Invoke(totalBullets);
+            OnBullCount?.Invoke(totalBullets);
         }
     }
 
@@ -180,10 +174,10 @@ public class SceneController : MonoBehaviour
         StopCoroutine(CountBull());
         yield return new WaitForSeconds(3f);
         if (prevLevelModel != null)
+        {
             Destroy(prevLevelModel);
+        }
+
         ConstructRandomLevel();
-
     }
-
-
 }

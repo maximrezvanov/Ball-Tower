@@ -12,7 +12,7 @@ public class Coin : MonoBehaviour
         rend = GetComponent<Renderer>();
     }
 
-    void Update()
+    private void Update()
     {
         DestroyCoin();
     }
