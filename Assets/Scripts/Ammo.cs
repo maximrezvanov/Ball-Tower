@@ -7,7 +7,7 @@ using UnityEngine;
 public class Ammo : MonoBehaviour
 {
     public Bullet[] bullets;
-    public List<Bullet> bulletsQueue = new List<Bullet>();
+    private List<Bullet> bulletsQueue = new List<Bullet>();
     public List<Bullet> superBalls = new List<Bullet>();
     public List<Bullet> lastBullets = new List<Bullet>();
     [SerializeField] private int bulletsQueueLength = 1;
@@ -57,8 +57,8 @@ public class Ammo : MonoBehaviour
 
     public Bullet GetBullet()
     {
-        if(!isLastBull)
-        index++;
+        if (!isLastBull)
+            index++;
 
         if (bulletsQueue.Count == 0 && !isLastBull)
         {
@@ -74,7 +74,7 @@ public class Ammo : MonoBehaviour
             nextBull = bulletsQueue[index + 1];
             ChangeMat(nextBullet, nextBull.GetComponent<Renderer>().sharedMaterial);
         }
-        
+
         if (isLastBull)
         {
             bulletsQueue.RemoveAt(0);
@@ -114,7 +114,6 @@ public class Ammo : MonoBehaviour
                 bulletsQueue.Add(bullets[colIndex]);
             }
         }
-
     }
 
     public void GenerateSuperBalls()
